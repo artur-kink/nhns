@@ -2,13 +2,9 @@
 #define	_CLIENT_
 
 #include "EngineCore.hpp"
-
 #include "Graphics/Graphics.hpp"
-
 #include "GameResources.hpp"
-
 #include "Graphics/UI/UIManager.hpp"
-
 #include "Utilities/Utilities.hpp"
 
 class Client:public EngineCore{

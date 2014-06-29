@@ -1,0 +1,93 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UI", "Tools\Tests\UI\UI.vcxproj", "{CF247F53-A624-47B6-94FD-150D3988ECEC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientServer_client", "Tools\Tests\ClientServer\ClientServer.vcxproj", "{060DBB22-10A4-46E7-B964-17B18231D3AC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "engine", "Engine\engine.vcxproj", "{B879149F-A2E4-4E66-8F82-F38E99340430}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientServer_Server", "Tools\Tests\ClientServer\ClientServer_Server.vcxproj", "{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5D939E91-63E2-4DCB-B8EA-C65C6E65B4F2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{A541FDDE-A046-4F5F-894C-7EAA6457FB11}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{D8282883-2D0D-4902-91F4-D4BCCE861B36}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Dev|Cafe = Debug Dev|Cafe
+		Debug Dev|Win32 = Debug Dev|Win32
+		Debug|Cafe = Debug|Cafe
+		Debug|Win32 = Debug|Win32
+		Release|Cafe = Release|Cafe
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF247F53-A624-47B6-94FD-150D3988ECEC}.Debug Dev|Cafe.ActiveCfg = Debug|Win32
+		{CF247F53-A624-47B6-94FD-150D3988ECEC}.Debug Dev|Win32.ActiveCfg = Debug|Win32
+		{CF247F53-A624-47B6-94FD-150D3988ECEC}.Debug Dev|Win32.Build.0 = Debug|Win32
+		{CF247F53-A624-47B6-94FD-150D3988ECEC}.Debug|Cafe.ActiveCfg = Debug|Win32
+		{CF247F53-A624-47B6-94FD-150D3988ECEC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CF247F53-A624-47B6-94FD-150D3988ECEC}.Debug|Win32.Build.0 = Debug|Win32
+		{CF247F53-A624-47B6-94FD-150D3988ECEC}.Release|Cafe.ActiveCfg = Release|Win32
+		{CF247F53-A624-47B6-94FD-150D3988ECEC}.Release|Win32.ActiveCfg = Release|Win32
+		{CF247F53-A624-47B6-94FD-150D3988ECEC}.Release|Win32.Build.0 = Release|Win32
+		{060DBB22-10A4-46E7-B964-17B18231D3AC}.Debug Dev|Cafe.ActiveCfg = Debug|Win32
+		{060DBB22-10A4-46E7-B964-17B18231D3AC}.Debug Dev|Win32.ActiveCfg = Debug|Win32
+		{060DBB22-10A4-46E7-B964-17B18231D3AC}.Debug Dev|Win32.Build.0 = Debug|Win32
+		{060DBB22-10A4-46E7-B964-17B18231D3AC}.Debug|Cafe.ActiveCfg = Debug|Win32
+		{060DBB22-10A4-46E7-B964-17B18231D3AC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{060DBB22-10A4-46E7-B964-17B18231D3AC}.Debug|Win32.Build.0 = Debug|Win32
+		{060DBB22-10A4-46E7-B964-17B18231D3AC}.Release|Cafe.ActiveCfg = Release|Win32
+		{060DBB22-10A4-46E7-B964-17B18231D3AC}.Release|Win32.ActiveCfg = Release|Win32
+		{060DBB22-10A4-46E7-B964-17B18231D3AC}.Release|Win32.Build.0 = Release|Win32
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Debug Dev|Cafe.ActiveCfg = Debug|Win32
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Debug Dev|Win32.ActiveCfg = Debug|Win32
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Debug Dev|Win32.Build.0 = Debug|Win32
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Debug|Cafe.ActiveCfg = Debug|Cafe
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Debug|Cafe.Build.0 = Debug|Cafe
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Debug|Win32.Build.0 = Debug|Win32
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Release|Cafe.ActiveCfg = Release|Cafe
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Release|Cafe.Build.0 = Release|Cafe
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Release|Win32.ActiveCfg = Release|Win32
+		{B879149F-A2E4-4E66-8F82-F38E99340430}.Release|Win32.Build.0 = Release|Win32
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}.Debug Dev|Cafe.ActiveCfg = Debug|Win32
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}.Debug Dev|Win32.ActiveCfg = Debug|Win32
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}.Debug Dev|Win32.Build.0 = Debug|Win32
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}.Debug|Cafe.ActiveCfg = Debug|Win32
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}.Debug|Win32.Build.0 = Debug|Win32
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}.Release|Cafe.ActiveCfg = Release|Win32
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}.Release|Win32.ActiveCfg = Release|Win32
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47}.Release|Win32.Build.0 = Release|Win32
+		{A541FDDE-A046-4F5F-894C-7EAA6457FB11}.Debug Dev|Cafe.ActiveCfg = Debug|Win32
+		{A541FDDE-A046-4F5F-894C-7EAA6457FB11}.Debug Dev|Win32.ActiveCfg = Debug|Win32
+		{A541FDDE-A046-4F5F-894C-7EAA6457FB11}.Debug Dev|Win32.Build.0 = Debug|Win32
+		{A541FDDE-A046-4F5F-894C-7EAA6457FB11}.Debug|Cafe.ActiveCfg = Debug|Win32
+		{A541FDDE-A046-4F5F-894C-7EAA6457FB11}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A541FDDE-A046-4F5F-894C-7EAA6457FB11}.Debug|Win32.Build.0 = Debug|Win32
+		{A541FDDE-A046-4F5F-894C-7EAA6457FB11}.Release|Cafe.ActiveCfg = Release|Win32
+		{A541FDDE-A046-4F5F-894C-7EAA6457FB11}.Release|Win32.ActiveCfg = Release|Win32
+		{A541FDDE-A046-4F5F-894C-7EAA6457FB11}.Release|Win32.Build.0 = Release|Win32
+		{D8282883-2D0D-4902-91F4-D4BCCE861B36}.Debug Dev|Cafe.ActiveCfg = Debug Dev|Win32
+		{D8282883-2D0D-4902-91F4-D4BCCE861B36}.Debug Dev|Win32.ActiveCfg = Debug Dev|Win32
+		{D8282883-2D0D-4902-91F4-D4BCCE861B36}.Debug Dev|Win32.Build.0 = Debug Dev|Win32
+		{D8282883-2D0D-4902-91F4-D4BCCE861B36}.Debug|Cafe.ActiveCfg = Debug|Win32
+		{D8282883-2D0D-4902-91F4-D4BCCE861B36}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D8282883-2D0D-4902-91F4-D4BCCE861B36}.Debug|Win32.Build.0 = Debug|Win32
+		{D8282883-2D0D-4902-91F4-D4BCCE861B36}.Release|Cafe.ActiveCfg = Release|Win32
+		{D8282883-2D0D-4902-91F4-D4BCCE861B36}.Release|Win32.ActiveCfg = Release|Win32
+		{D8282883-2D0D-4902-91F4-D4BCCE861B36}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF247F53-A624-47B6-94FD-150D3988ECEC} = {5D939E91-63E2-4DCB-B8EA-C65C6E65B4F2}
+		{060DBB22-10A4-46E7-B964-17B18231D3AC} = {5D939E91-63E2-4DCB-B8EA-C65C6E65B4F2}
+		{C4CC66C8-7CA4-468F-A779-2AECA3F04F47} = {5D939E91-63E2-4DCB-B8EA-C65C6E65B4F2}
+	EndGlobalSection
+EndGlobal

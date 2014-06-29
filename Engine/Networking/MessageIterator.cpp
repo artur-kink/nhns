@@ -39,7 +39,7 @@ void MessageIterator::setPosition(unsigned int p){
 void MessageIterator::parseMessage(){
 
 	//Check that position in pool range.
-	if(messagePool->eor()){
+    if(messagePool->getLength() <= position){
 		message = 0;
 		return;
 	}

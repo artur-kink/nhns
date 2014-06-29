@@ -12,6 +12,9 @@ Debug/*.pdb
 Debug/*.ilk
 Debug/*.lib
 
+*.vcxproj.filters
+*.vcxproj.users
+
 *.so
 *.so.2
 *.a

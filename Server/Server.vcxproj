@@ -17,10 +17,14 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D8282883-2D0D-4902-91F4-D4BCCE861B36}</ProjectGuid>
     <RootNamespace>Server</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -69,8 +73,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Engine\Networking;..\sfml\include;..\Engine;..\lua\include;..\luabind;..\boost;..\pugixml\src;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;_MBCS;LUABIND_DYNAMIC_LINK;NHNS_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\Engine\Networking;..\sfml\include;..\Engine;..\pugixml\src;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SFML_STATIC;_MBCS;_PC_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CompileAs>CompileAsCpp</CompileAs>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -79,7 +83,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;lua51.lib;luabindd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\sfml\bin;..\sfml\lib;..\lua;..\luabind</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
@@ -125,42 +129,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="ClientCollection.cpp" />
-    <ClCompile Include="LoadingClientCollection.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NetworkHandler.cpp" />
-    <ClCompile Include="Objects\Player.cpp" />
-    <ClCompile Include="Objects\Character.cpp" />
-    <ClCompile Include="Objects\PlayerManager.cpp" />
-    <ClCompile Include="Objects\ServerEntityManager.cpp" />
-    <ClCompile Include="Objects\ServerRegion.cpp" />
-    <ClCompile Include="Objects\ServerRegionManager.cpp" />
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="ServerScriptEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Client.hpp" />
-    <ClInclude Include="ClientCollection.hpp" />
-    <ClInclude Include="LoadingClientCollection.hpp" />
-    <ClInclude Include="NetworkHandler.hpp" />
-    <ClInclude Include="Objects\Player.hpp" />
-    <ClInclude Include="Objects\Character.hpp" />
-    <ClInclude Include="Objects\PlayerManager.hpp" />
-    <ClInclude Include="Objects\ServerEntityManager.hpp" />
-    <ClInclude Include="Objects\ServerRegion.hpp" />
-    <ClInclude Include="Objects\ServerRegionManager.hpp" />
     <ClInclude Include="Server.hpp" />
-    <ClInclude Include="ServerScriptEngine.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Debug\Entities\c_sample.lua" />
-    <None Include="..\Debug\Entities\s_regionsample.lua" />
-    <None Include="..\Debug\Entities\s_sample.lua" />
-    <None Include="..\Debug\ServerScripts\server.lua" />
-    <None Include="Makefile" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Engine\engine.vcxproj">
+      <Project>{b879149f-a2e4-4e66-8f82-f38e99340430}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Engine\EngineLib.vcxproj">
       <Project>{1ce7409c-43a9-4858-a995-5d6f08508ec0}</Project>
       <Private>true</Private>

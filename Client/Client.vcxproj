@@ -48,7 +48,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-main-d.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;pugixmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-main-d.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-network-s-d.lib;pugixmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../SFML/lib;../pugixml</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -72,36 +72,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Entities\CharacterEntity.cpp" />
-    <ClCompile Include="Entities\CharacterManager.cpp" />
-    <ClCompile Include="Entities\Enemy.cpp" />
-    <ClCompile Include="Entities\Entity.cpp" />
-    <ClCompile Include="Entities\Explosion.cpp" />
-    <ClCompile Include="Entities\Flag.cpp" />
-    <ClCompile Include="Entities\HoverBike.cpp" />
-    <ClCompile Include="Entities\Pickup.cpp" />
-    <ClCompile Include="Entities\PickupManager.cpp" />
-    <ClCompile Include="Entities\Player.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameResources.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlayerControls.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.hpp" />
-    <ClInclude Include="Entities\Explosion.hpp" />
-    <ClInclude Include="Entities\Flag.hpp" />
-    <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameResources.hpp" />
-    <ClInclude Include="Entities\CharacterEntity.hpp" />
-    <ClInclude Include="Entities\CharacterManager.hpp" />
-    <ClInclude Include="Entities\Enemy.hpp" />
-    <ClInclude Include="Entities\Entity.hpp" />
-    <ClInclude Include="Entities\HoverBike.hpp" />
-    <ClInclude Include="Entities\Pickup.hpp" />
-    <ClInclude Include="Entities\PickupManager.hpp" />
-    <ClInclude Include="Entities\Player.hpp" />
-    <ClInclude Include="PlayerControls.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\engine.vcxproj">

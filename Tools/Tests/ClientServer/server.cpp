@@ -9,15 +9,25 @@ int main(int argc, char** argv){
     Log >> new ConsoleLogger();
     Log.setLevelFilter(Logger::ll_Debug);
 
-    NetworkHandler client;
-    client.bind("localhost", 50013);
-    client.setOutPort(50012);
+    NetworkHandler network;
+    network.bind("localhost", 50013);
+    network.setOutPort(50012);
 
     while(true){
         Log << LL_D << "Waiting for message from client.";
-        MessageQueue* messages = client.getMessagesBlocking(500);
+        MessageQueue* messages = network.getMessagesBlocking(500);
         if(messages){
-            Log << LL_D << "Got messages.";
+            Log << LL_D << "Got " << messages->size << " messages.";
+
+            for(MessageIterator message = messages->begin(); *message; ++message){
+                if((*message)->code == Message::m_b_Ping){
+                    Log << LL_D << "Got Ping message. Responding...";
+                    network.addMessage(Message::m_b_Ping, 0);
+                    network.sendMessages();
+                }else {
+                    Log << LL_D << "Got unexpected message.";
+                }
+            }
         }
     }
 }

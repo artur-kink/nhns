@@ -49,8 +49,11 @@ MessageIterator& MessageQueue::begin(){
 sf::Packet* MessageQueue::getMessagePacket(){
 	if(!messagePool.eor()){
         sf::Packet* packet = new sf::Packet;
+
+        //Write number of messages to packet.
         packet->append(&size, sizeof(uint16_t));
 
+        //Copy all messages to packet.
         for(MessageIterator message = begin(); *message; ++message){
             packet->append(&(*message)->code, sizeof(byte));
             packet->append(&(*message)->serverTime, sizeof((*message)->serverTime));
@@ -83,7 +86,7 @@ MessageIterator& MessageQueue::getFirstMessage(unsigned short code){
 * @param port Port to send to.
 */
 sf::Socket::Status MessageQueue::forceSendQueue(sf::UdpSocket& socket, const sf::IpAddress& address, const unsigned short& port){
-    /*if(size != 0){
+    if(size != 0){
         sf::Packet* sendPacket = getMessagePacket();
         if(sendPacket != 0){
             sf::Socket::Status sendStatus = socket.send((*sendPacket), address, port);
@@ -98,7 +101,7 @@ sf::Socket::Status MessageQueue::forceSendQueue(sf::UdpSocket& socket, const sf:
         delete sendPacket;
         return sf::Socket::Error;
     }
-    return sf::Socket::Done;*/
+    return sf::Socket::Done;
 }
 
 /** 
@@ -107,10 +110,10 @@ sf::Socket::Status MessageQueue::forceSendQueue(sf::UdpSocket& socket, const sf:
 * @return Socket's send return or Done if message not sent.
 */
 sf::Socket::Status MessageQueue::sendQueue(sf::UdpSocket& socket, const sf::IpAddress& address, const unsigned short& port){
-    /*if(cycleTimer.getElapsedTime().asMilliseconds() >= MESSAGE_CYCLE_LENGTH || forceSend){
+    if(cycleTimer.getElapsedTime().asMilliseconds() >= MESSAGE_CYCLE_LENGTH || forceSend){
         return forceSendQueue(socket, address, port);
     }
-    return sf::Socket::Done;*/
+    return sf::Socket::Done;
 }
 
 /** 
@@ -198,8 +201,8 @@ MessageIterator& MessageQueue::createMessage(unsigned short code, void* data){
 
 	//Copy message info
 	message->code = code;
-	message->group = (Message::MessageGroup)Message::messageGroup((byte)code);
-	message->serverTime = serverTime->getTime();
+	message->group = (Message::MessageGroup)Message::messageGroup((unsigned short)code);
+	message->serverTime = 0;//serverTime->getTime();
 	message->buffer = ((byte*)message) + sizeof(Message);
 
 	//Copy data into buffer if any exists.

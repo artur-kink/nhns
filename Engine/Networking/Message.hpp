@@ -21,6 +21,7 @@ public:
     * c_ = client->server messages.
     * s_ = server->client messages.
     * b_ = server->client or client->server.
+    * m_b_Ping is a basic ping message, leave it in.
     * NUM_MESSAGES specifies the number of message codes. It must remain last in the list.
     */
     enum MessageCode {
