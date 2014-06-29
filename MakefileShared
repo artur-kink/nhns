@@ -1,0 +1,43 @@
+#This makefile is included in all the project makefiles
+#This makefile specifies commands, paths and other variables
+#that are used to build the projects. Theoretically changing
+#this file should be enough when moving to a new system.
+
+#All paths should not end in /
+
+#Environment variables
+MKDIR=mkdir
+RM=rm -fv
+
+#PreProcessor Flags 
+LIB_FLAGS= -DSFML_STATIC -D_PC_
+
+#Archive
+AR=ar
+#Archive flags
+ARFLAGS=-rs
+
+#Compiler
+CC=g++
+#Compiler flags
+CFLAGS=-c -g -Wall $(LIB_FLAGS)
+#Linker flags
+LFLAGS=-Wall -g $(LIB_FLAGS)
+
+#Root folder of project
+PROJECT_PATH= /home/malo/nhns
+
+#Path of executable and lib outputs
+EXEC_PATH= $(PROJECT_PATH)/Debug
+
+#Path to SFML Files
+SFML_INCLUDES=$(PROJECT_PATH)/SFML/include
+SFML_LIBS=$(PROJECT_PATH)/SFML/lib
+
+#Path to pugixml Files
+PUGI_INCLUDES=$(PROJECT_PATH)/pugixml/src
+PUGI_LIBS=$(PROJECT_PATH)/pugixml/
+
+#Path to all library files
+LIB_INCLUDES= $(SFML_INCLUDES) $(PUGI_INCLUDES)
+LIB_LIBS=$(SFML_LIBS) $(PUGI_LIBS)

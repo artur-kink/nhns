@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Cafe">
+      <Configuration>Debug</Configuration>
+      <Platform>Cafe</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Cafe">
+      <Configuration>Release</Configuration>
+      <Platform>Cafe</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B879149F-A2E4-4E66-8F82-F38E99340430}</ProjectGuid>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>CafeSDK2.09.08</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v100</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Cafe'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>CafeSDK2.09.08</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v100</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\cafe2_asm.props" Condition="(exists('$(VCTargetsPath)\BuildCustomizations\cafe2_asm.props'))" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Cafe'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">
+    <IncludePath>$(CAFE_ROOT)\system\src\tool\gfx\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ProjectReference>
+      <LinkLibraryDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">true</LinkLibraryDependencies>
+      <LinkLibraryDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkLibraryDependencies>
+      <LinkLibraryDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Cafe'">true</LinkLibraryDependencies>
+      <LinkLibraryDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</LinkLibraryDependencies>
+    </ProjectReference>
+    <ClCompile>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">_DEBUG;NDEV=1;CAFE=2;PLATFORM=CAFE;EPPC;%(PreprocessorDefinitions);_WIIU_</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_PC_;SFML_STATIC</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../SFML/include;../pugixml/src;../Engine/</AdditionalIncludeDirectories>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EditAndContinue</DebugInformationFormat>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">..\Scffnd\Library\Scffnd\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">$(CAFE_ROOT)\system\lib\ghs\cafe\DEBUG;%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(CAFE_ROOT)\system\lib\ghs\cafe\DEBUG;%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
+    </Link>
+    <PostLink>
+      <SetLoaderTag Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">BUILD_TYPE=DEBUG</SetLoaderTag>
+      <SetLoaderTag Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">BUILD_TYPE=DEBUG</SetLoaderTag>
+      <Padall Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">10</Padall>
+      <Padall Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">10</Padall>
+    </PostLink>
+    <ClCompile />
+    <Link />
+    <PostLink />
+    <ClCompile>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Cafe'">NDEBUG;NDEV=1;CAFE=2;PLATFORM=CAFE;EPPC;%(PreprocessorDefinitions);_WIIU_</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions);_PC_;SFML_STATIC</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../SFML/include;../pugixml/src;../Engine/</AdditionalIncludeDirectories>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">OldStyle</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Cafe'">$(CAFE_ROOT)\system\lib\ghs\cafe\NDEBUG;%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(CAFE_ROOT)\system\lib\ghs\cafe\NDEBUG;%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
+    </Link>
+    <PostLink>
+      <SetLoaderTag Condition="'$(Configuration)|$(Platform)'=='Release|Cafe'">BUILD_TYPE=NDEBUG</SetLoaderTag>
+      <SetLoaderTag Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">BUILD_TYPE=NDEBUG</SetLoaderTag>
+      <Padall Condition="'$(Configuration)|$(Platform)'=='Release|Cafe'">10</Padall>
+      <Padall Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">10</Padall>
+    </PostLink>
+    <Lib>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\SFML\lib;..\pugixml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\SFML\lib;..\pugixml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <Lib>
+      <DebuggingLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Cafe'">Plain</DebuggingLevel>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Audio\AudioManager.cpp" />
+    <ClCompile Include="Audio\AudioObject.cpp" />
+    <ClCompile Include="Content\Map.cpp" />
+    <ClCompile Include="Content\MapLoader.cpp" />
+    <ClCompile Include="Content\Tile.cpp" />
+    <ClCompile Include="EngineCore.cpp" />
+    <ClCompile Include="Graphics\AnimatedSprite.cpp" />
+    <ClCompile Include="Graphics\BaseSprite.cpp" />
+    <ClCompile Include="Graphics\BaseTransformation.cpp" />
+    <ClCompile Include="Graphics\Camera.cpp" />
+    <ClCompile Include="Graphics\Color.cpp" />
+    <ClCompile Include="Graphics\FontHandler.cpp" />
+    <ClCompile Include="graphics\GraphicsHandler.cpp" />
+    <ClCompile Include="Graphics\LayeredSprite.cpp" />
+    <ClCompile Include="Graphics\MatrixTransformation.cpp" />
+    <ClCompile Include="graphics\RenderTarget.cpp" />
+    <ClCompile Include="Graphics\ShaderManager.cpp" />
+    <ClCompile Include="Graphics\ShaderTransformation.cpp" />
+    <ClCompile Include="Graphics\SpriteManager.cpp" />
+    <ClCompile Include="Graphics\SpriteSet.cpp" />
+    <ClCompile Include="Graphics\StaticSprite.cpp" />
+    <ClCompile Include="Graphics\UI\InterfaceElement.cpp" />
+    <ClCompile Include="Graphics\UI\InterfaceEvent.cpp" />
+    <ClCompile Include="Graphics\UI\InterfaceEventHandler.cpp" />
+    <ClCompile Include="Graphics\UI\Label.cpp" />
+    <ClCompile Include="Graphics\UI\Panel.cpp" />
+    <ClCompile Include="Graphics\UI\Rectangle.cpp" />
+    <ClCompile Include="Graphics\UI\UIManager.cpp" />
+    <ClCompile Include="Objects\BaseEntity.cpp" />
+    <ClCompile Include="Objects\BaseObject.cpp" />
+    <ClCompile Include="Objects\EntityManager.cpp" />
+    <ClCompile Include="Objects\Region.cpp" />
+    <ClCompile Include="Objects\RegionManager.cpp" />
+    <ClCompile Include="Utilities\AccumulativeTimer.cpp" />
+    <ClCompile Include="Utilities\CalendarTime.cpp" />
+    <ClCompile Include="Utilities\CollisionHelper.cpp" />
+    <ClCompile Include="Utilities\ConsoleLogger.cpp" />
+    <ClCompile Include="Utilities\LogManager.cpp" />
+    <ClCompile Include="utilities\FileHandler.cpp" />
+    <ClCompile Include="utilities\FileLogger.cpp" />
+    <ClCompile Include="utilities\InputHandler.cpp" />
+    <ClCompile Include="utilities\IntervalCounter.cpp" />
+    <ClCompile Include="utilities\Logger.cpp" />
+    <ClCompile Include="Utilities\MathHelper.cpp" />
+    <ClCompile Include="utilities\MemoryPool.cpp" />
+    <ClCompile Include="Utilities\ResourceManager.cpp" />
+    <ClCompile Include="utilities\StringHelper.cpp" />
+    <ClCompile Include="utilities\TandemTimer.cpp" />
+    <ClCompile Include="Utilities\Time.cpp" />
+    <ClCompile Include="Utilities\Timer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Audio\Audio.hpp" />
+    <ClInclude Include="Audio\AudioManager.hpp" />
+    <ClInclude Include="Audio\AudioObject.hpp" />
+    <ClInclude Include="Content\Map.hpp" />
+    <ClInclude Include="Content\MapLoader.hpp" />
+    <ClInclude Include="Content\Tile.hpp" />
+    <ClInclude Include="EngineCore.hpp" />
+    <ClInclude Include="Graphics\AnimatedSprite.hpp" />
+    <ClInclude Include="Graphics\BaseRenderTarget.hpp" />
+    <ClInclude Include="Graphics\BaseSprite.hpp" />
+    <ClInclude Include="Graphics\BaseTransformation.hpp" />
+    <ClInclude Include="Graphics\Camera.hpp" />
+    <ClInclude Include="Graphics\Color.hpp" />
+    <ClInclude Include="Graphics\DynamicSprite.hpp" />
+    <ClInclude Include="Graphics\FontHandler.hpp" />
+    <ClInclude Include="Graphics\Graphics.hpp" />
+    <ClInclude Include="graphics\GraphicsHandler.hpp" />
+    <ClInclude Include="Graphics\LayeredSprite.hpp" />
+    <ClInclude Include="Graphics\MatrixTransformation.hpp" />
+    <ClInclude Include="Graphics\RenderObject.hpp" />
+    <ClInclude Include="graphics\RenderTarget.hpp" />
+    <ClInclude Include="Graphics\ShaderManager.hpp" />
+    <ClInclude Include="Graphics\ShaderTransformation.hpp" />
+    <ClInclude Include="Graphics\SpriteManager.hpp" />
+    <ClInclude Include="Graphics\SpriteSet.hpp" />
+    <ClInclude Include="Graphics\StaticSprite.hpp" />
+    <ClInclude Include="Graphics\UI\InterfaceElement.hpp" />
+    <ClInclude Include="Graphics\UI\InterfaceEvent.hpp" />
+    <ClInclude Include="Graphics\UI\InterfaceEventHandler.hpp" />
+    <ClInclude Include="Graphics\UI\Label.hpp" />
+    <ClInclude Include="Graphics\UI\Panel.hpp" />
+    <ClInclude Include="Graphics\UI\Rectangle.hpp" />
+    <ClInclude Include="Graphics\UI\UIManager.hpp" />
+    <ClInclude Include="Objects\BaseEntity.hpp" />
+    <ClInclude Include="Objects\BaseObject.hpp" />
+    <ClInclude Include="Objects\EntityManager.hpp" />
+    <ClInclude Include="Objects\ObjectManager.hpp" />
+    <ClInclude Include="Objects\Region.hpp" />
+    <ClInclude Include="Objects\RegionManager.hpp" />
+    <ClInclude Include="Types.hpp" />
+    <ClInclude Include="Utilities\AccumulativeTimer.hpp" />
+    <ClInclude Include="Utilities\BaseTween.hpp" />
+    <ClInclude Include="Utilities\CalendarTime.hpp" />
+    <ClInclude Include="Utilities\CollisionHelper.hpp" />
+    <ClInclude Include="Utilities\ConsoleLogger.hpp" />
+    <ClInclude Include="Utilities\KeyValuePair.hpp" />
+    <ClInclude Include="Utilities\LogManager.hpp" />
+    <ClInclude Include="utilities\FileHandler.hpp" />
+    <ClInclude Include="utilities\FileLogger.hpp" />
+    <ClInclude Include="utilities\InputHandler.hpp" />
+    <ClInclude Include="utilities\IntervalCounter.hpp" />
+    <ClInclude Include="utilities\Logger.hpp" />
+    <ClInclude Include="Utilities\MathHelper.hpp" />
+    <ClInclude Include="utilities\MemoryPool.hpp" />
+    <ClInclude Include="Utilities\OscillatingTween.hpp" />
+    <ClInclude Include="Utilities\ResourceManager.hpp" />
+    <ClInclude Include="Utilities\Serializable.hpp" />
+    <ClInclude Include="utilities\StringHelper.hpp" />
+    <ClInclude Include="utilities\TandemTimer.hpp" />
+    <ClInclude Include="Utilities\Time.hpp" />
+    <ClInclude Include="Utilities\TimedTween.hpp" />
+    <ClInclude Include="Utilities\Timer.hpp" />
+    <ClInclude Include="Utilities\Utilities.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\cafe2_asm.targets" Condition="(exists('$(VCTargetsPath)\BuildCustomizations\cafe2_asm.targets'))" />
+  </ImportGroup>
+</Project>
