@@ -35,10 +35,16 @@ public:
     /** MessageQueue for received messages. */
 	MessageQueue inQueue;
 
+    /** Address of last received message. */
+    char* lastMessageAddress;
+    
+    /** Port of last received message.*/
+    unsigned short lastMessagePort;
+
     NetworkHandler();
 
-    void bind(const char* addr, unsigned short port);
-    void setOutPort(unsigned short port);
+    void bind(unsigned short port);
+    void setOutConnection(const char* addr, unsigned short port);
 
     MessageIterator& addMessage(unsigned short code, void* data);
     bool sendMessages();

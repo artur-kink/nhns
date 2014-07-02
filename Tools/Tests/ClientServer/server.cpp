@@ -10,8 +10,7 @@ int main(int argc, char** argv){
     Log.setLevelFilter(Logger::ll_Debug);
 
     NetworkHandler network;
-    network.bind("localhost", 50013);
-    network.setOutPort(50012);
+    network.bind(50013);
 
     while(true){
         Log << LL_D << "Waiting for message from client.";
@@ -19,6 +18,7 @@ int main(int argc, char** argv){
         if(messages){
             Log << LL_D << "Got " << messages->size << " messages.";
 
+            network.setOutConnection(network.lastMessageAddress, network.lastMessagePort);
             for(MessageIterator message = messages->begin(); *message; ++message){
                 if((*message)->code == Message::m_b_Ping){
                     Log << LL_D << "Got Ping message. Responding...";

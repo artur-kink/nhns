@@ -39,10 +39,12 @@ void EngineCore::init(){
     graphics.init();
 
 #ifdef _PC_
-    window.create(sf::VideoMode(1024, 720), "Title", sf::Style::Default);
+    window.create(sf::VideoMode(1280, 720), "Title", sf::Style::Default);
 
     graphics.window = &window;
     graphics.rootTarget = &window;
+
+    input.window = &window;
 #endif
     
     Log << LL_D << LC_E << "Engine core initialized";

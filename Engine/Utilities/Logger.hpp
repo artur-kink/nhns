@@ -83,8 +83,10 @@ public:
         lc_Filesystem = 3,
         /** Audio. */
         lc_Audio = 4,
+        /** Network. */
+        lc_Network = 5,
         /** Any other not included sources. */
-        lc_Other = 5
+        lc_Other = 6
     };
 
 #define LOG_ENGINE "\1\1"
@@ -95,7 +97,9 @@ public:
 #define LC_F LOG_FILESYSTEM
 #define LOG_AUDIO "\1\4"
 #define LC_A LOG_AUDIO
-#define LOG_OTHER "\1\5"
+#define LOG_NETWORK "\1\5"
+#define LC_N LOG_NETWORK
+#define LOG_OTHER "\1\6"
 #define LC_O LOG_OTHER
 
     /** LogChannel string names. */

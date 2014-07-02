@@ -2,27 +2,28 @@
 
 NetworkHandler::NetworkHandler(){
     inPort = outPort = 50012;
+    lastMessageAddress = new char[20];
 }
 
 /**
- * Bind the socket to the given address and port. Opens Socket.
- * @param addr Address to bind to.
+ * Bind the socket to the given port. Opens Socket to listen
+ * to connections on given port.
  * @param port Port to bind to.
  */
-void NetworkHandler::bind(const char* addr, unsigned short port){
+void NetworkHandler::bind(unsigned short port){
     inPort = port;
     socket.unbind();
     socket.bind(inPort);
     socket.setBlocking(false);
-
-    address = sf::IpAddress(addr);
 }
 
 /**
- * Set port for outgoing messages.
- * @param port Port to set.
+ * Set outgoing connection info.
+ * @param addr Address to send to.
+ * @param port Port to send to.
  */
-void NetworkHandler::setOutPort(unsigned short port){
+void NetworkHandler::setOutConnection(const char* addr, unsigned short port){
+    address = addr;
     outPort = port;
 }
 
@@ -69,10 +70,11 @@ bool NetworkHandler::forceSendMessages(){
 MessageQueue* NetworkHandler::getMessages(){
 #ifdef _PC_
     sf::Packet receivedPacket;
-    sf::IpAddress rAddress;
-    unsigned short rPort;
+    
+    sf::IpAddress address;
 
-    if(socket.receive(receivedPacket, rAddress, rPort) == sf::Socket::Done){
+    if(socket.receive(receivedPacket, address, lastMessagePort) == sf::Socket::Done){
+        std::strcpy(lastMessageAddress, address.toString().c_str());
 		inQueue.parsePacket(receivedPacket);
         return &inQueue;
     }
@@ -112,4 +114,6 @@ void NetworkHandler::close() {
  */
 NetworkHandler::~NetworkHandler() {
     close();
+    delete lastMessageAddress;
+    lastMessageAddress = 0;
 }

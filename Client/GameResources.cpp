@@ -3,7 +3,6 @@
 GameResources* GameResources::instance = 0;
 
 GameResources::GameResources(){
-
 }
 
 GameResources::~GameResources(){

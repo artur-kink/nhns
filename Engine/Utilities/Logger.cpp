@@ -15,6 +15,7 @@ const char* Logger::ChannelNames[] = {
     "Graphics",
     "Filesystem",
     "Audio",
+    "Network",
     "Other",
     ""
 };

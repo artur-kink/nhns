@@ -11,8 +11,8 @@ int main(int argc, char** argv){
     Log.setLevelFilter(Logger::ll_Debug);
 
     NetworkHandler network;
-    network.bind("localhost", 50012);
-    network.setOutPort(50013);
+    network.bind(50012);
+    network.setOutConnection("localhost", 50013);
 
     while(true){
         Log << LL_D << "Pinging server.";

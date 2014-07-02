@@ -4,6 +4,6 @@
 typedef unsigned char byte;
 
 //Size of a map tile.
-#define TILESIZE 16
+#define TILESIZE 8
 
 #endif

@@ -8,28 +8,7 @@ FileLogger::FileLogger(const char* name, char delim){
 
     //Open output file.
     FileHandler fileHandler;
-    
-    char *filename = new char[64];
-    filename[0] = 0;
-    DateTime dt = CalendarTime::getDateTime();
-#ifdef _PC_
-    strcpy(filename, "Log/");
-#endif
-    strcat(filename, name);
-    strcat(filename, "_");
-    strcat(filename, StringHelper::ustos(dt.month));
-    strcat(filename, "_");
-    strcat(filename, StringHelper::ustos(dt.day));
-    strcat(filename, "_");
-    strcat(filename, StringHelper::ustos(dt.hour));
-    strcat(filename, "_");
-    strcat(filename, StringHelper::ustos(dt.minute));
-    strcat(filename, "_");
-    strcat(filename, StringHelper::ustos(dt.second));
-    strcat(filename, ".txt");
-    
-    logFile = fileHandler.openFile(filename, FileHandler::fam_New);
-    delete filename;
+    logFile = fileHandler.openFile(name, FileHandler::fam_New);
 }
 
 void FileLogger::write(const char* str){

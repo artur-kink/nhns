@@ -100,8 +100,8 @@ void InputHandler::update(unsigned int time){
     updateButtonState(i_Mouse, ib_Middle, sf::Mouse::isButtonPressed(sf::Mouse::Middle));
     updateButtonState(i_Mouse, ib_Right, sf::Mouse::isButtonPressed(sf::Mouse::Right));
     //Update mouse pointer
-    pointer[i_Mouse][0] = sf::Mouse::getPosition().x;
-    pointer[i_Mouse][1] = sf::Mouse::getPosition().y;
+    pointer[i_Mouse][0] = sf::Mouse::getPosition(*window).x;
+    pointer[i_Mouse][1] = sf::Mouse::getPosition(*window).y;
 
     //Update keyboard state
     anyButtonPressed[0] = false;
@@ -173,5 +173,7 @@ bool InputHandler::isAnyButtonPressed(byte input){
 }
 
 InputHandler::~InputHandler(){
-
+#ifdef _PC_
+    window = 0;
+#endif
 }

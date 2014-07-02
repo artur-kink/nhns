@@ -151,16 +151,10 @@ void SpriteManager::load(const char* path){
             file->read((char*) &sheetNameLength, sizeof(sheetNameLength));
             char* sheetNameChr = new char[sheetNameLength + 1];
             file->readString(sheetNameChr, sheetNameLength);
-            char* sheetLoadNameChr = new char[sheetNameLength + 5];
-            sheetNameChr[sheetNameLength] = '\0';
-            strcpy(sheetLoadNameChr, sheetNameChr);
-#ifdef _PC_
-            strcat(sheetLoadNameChr, ".tga");
-#endif
-            sheetLoadNameChr[sheetNameLength + 4] = '\0';
+            
 			//Load texure file
 #ifdef _PC_
-            if(!textures[i].loadFromFile(sheetLoadNameChr))
+            if(!textures[i].loadFromFile(sheetNameChr))
                 continue;
 
 			textureSprites[i].setTexture(textures[i]);
@@ -312,10 +306,7 @@ void SpriteManager::loadRaw(const char* file){
 
     //Load sheet textures.
     for(unsigned int i = 0; i < sheetNames.size(); i++){
-        char* textureName = new char[strlen(sheetNames.at(i)) + 5];
-        strcpy(textureName, sheetNames.at(i));
-        strcat(textureName, ".tga");
-        if(!textures[i].loadFromFile(textureName)){
+        if(!textures[i].loadFromFile(sheetNames.at(i))){
             Log << LL_C << "Failed to load texture.";
             continue;
         }

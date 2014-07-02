@@ -90,7 +90,18 @@ uint16_t Message::bufferSize(unsigned short code){
     switch (code) {
         case Message::m_b_Ping:
             return 0;
-
+        case m_c_ClockSyncReq:
+            return 0;
+        case m_s_ClockSyncResp:
+            return 0;
+        case m_c_ConnectionRequest:
+            return 0;
+        case m_s_ConnectionRefuse:
+            return 0;
+        case m_s_ConnectionTerminate:
+            return 0;
+        case m_s_ConnectionAccept:
+            return 0;
         default:
             return 0xFFFF; //Hopefully cause overflow as this should never be reached.
     }
@@ -103,7 +114,18 @@ byte Message::messageGroup(unsigned short code){
 	switch (code) {
         case Message::m_b_Ping:
             return Message::g_Critical;
-
+        case m_c_ClockSyncReq:
+            return Message::g_Critical;
+        case m_s_ClockSyncResp:
+            return Message::g_Critical;
+        case m_c_ConnectionRequest:
+            return Message::g_NewConnection;
+        case m_s_ConnectionRefuse:
+            return Message::g_NewConnection;
+        case m_s_ConnectionTerminate:
+            return Message::g_NewConnection;
+        case m_s_ConnectionAccept:
+            return Message::g_NewConnection;
         default:
             return 0;
     }

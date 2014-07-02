@@ -1,5 +1,12 @@
 #include "Map.hpp"
 
+/**
+ * Create a new map with given name and size;
+ * @param mapName String name of map.
+ * @param mapWidth Width of map in tiles.
+ * @param mapHeight Height of map in tiles.
+ * @todo replace std::string with const char*
+ */
 Map::Map(std::string mapName, unsigned short mapWidth, unsigned short mapHeight){
     name = mapName;
     width = mapWidth;

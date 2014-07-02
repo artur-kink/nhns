@@ -26,6 +26,12 @@ public:
     */
     enum MessageCode {
         m_b_Ping,
+        m_c_ClockSyncReq,
+        m_s_ClockSyncResp,
+        m_c_ConnectionRequest,
+        m_s_ConnectionRefuse,
+        m_s_ConnectionTerminate,
+        m_s_ConnectionAccept,
         m_NUM_MESSAGES
     };
 

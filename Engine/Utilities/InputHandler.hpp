@@ -10,6 +10,7 @@
 #include "Types.hpp"
 
 class InputHandler{
+    friend class EngineCore;
 public:
 
     /** Number of input devices. */
@@ -41,6 +42,11 @@ public:
         ip_Last
     };
 private:
+
+#ifdef _PC_
+    sf::Window* window;
+#endif
+
     /** Last time of update. */
     unsigned int lastUpdateTime;
 
