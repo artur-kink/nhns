@@ -125,6 +125,9 @@ void Server::handleMessages(MessageIterator& message){
                 Log << LL_I << LC_N << "Client terminated connection.";
                 clients[sourceClient].status = Client::cs_Disconnected;
                 break;
+            case Message::m_c_PlayerMove:
+                Log << LL_I << LC_N << "Player move.";
+                break;
         }
     }
 

@@ -70,6 +70,10 @@ void Client::connect(const char* addr, unsigned short port){
 
     Log << LL_I << LC_N << "Connecting to " << addr << ":" << port;
 
+    //Disconnect if connected.
+    connected = false;
+    network.close();
+
     network.bind(50012);
     network.setOutConnection(addr, port);
     network.addMessage(Message::m_c_ConnectionRequest, 0);
@@ -136,7 +140,7 @@ void Client::update(unsigned int frameTime){
     if(connected){
         MessageQueue* messages = network.getMessages();
         if(messages){
-            Log << LL_D << LC_N << "Got " << messages->size << " network messages.";
+            Log << LL_D << LC_N << "Received " << messages->size << " network message(s).";
 
             for(MessageIterator& message = messages->begin(); *message; ++message){
                 switch((*message)->code){
@@ -151,7 +155,6 @@ void Client::update(unsigned int frameTime){
             network.addMessage(Message::m_b_Ping, 0);
             pingTimer.reset(frameTime);
         }
-        network.sendMessages();
     }
     
     //Update sprites.
@@ -166,6 +169,26 @@ void Client::update(unsigned int frameTime){
     camera.update(frameTime);
 
 #ifdef _PC_
+    byte currentDir = player.dir;
+    if(input.isButtonDown(0, sf::Keyboard::W)){
+        player.dir = Entity::dir_Up;
+    }else if(input.isButtonDown(0, sf::Keyboard::S)){
+        player.dir = Entity::dir_Down;
+    }else{
+        player.dir = Entity::dir_None;
+    }
+
+    
+    if(input.isButtonDown(0, sf::Keyboard::A)){
+        player.dir |= Entity::dir_Right;
+    }else if(input.isButtonDown(0, sf::Keyboard::D)){
+        player.dir |= Entity::dir_Left;
+    }
+
+    if(connected && currentDir != player.dir){
+        network.addMessage(Message::m_c_PlayerMove, &player.dir);
+    }
+
     if(input.isButtonPressed(0, sf::Keyboard::C)){
         connect("localhost", 50013);
     }
@@ -185,6 +208,12 @@ void Client::update(unsigned int frameTime){
         editor.update(frameTime);
     }
 #endif
+
+    player.update(frameTime);
+
+    if(connected){
+        network.sendMessages();
+    }
 }
 
 void Client::draw(unsigned int frameTime){
@@ -210,8 +239,8 @@ void Client::draw(unsigned int frameTime){
         }
     }
 
-    graphics.draw(Resources->sprites.getSprite("character"), 0, 0);
-
+    player.draw(graphics, frameTime);
+    
     if(debug){
         editor.draw(graphics, frameTime);
     }
@@ -232,7 +261,6 @@ Client::~Client(){
     }
     delete Resources;
     ui.clear();
-    graphics.cleanup();
     
     Log << LC_E << LL_I << "Terminating Loggers";
     Log.close();

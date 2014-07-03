@@ -26,10 +26,12 @@ public:
     */
     enum MessageCode {
         m_b_Ping,
+
         /** Client request to get server time. */
         m_c_ClockSyncReq,
         /** Server response with server time. */
         m_s_ClockSyncResp,
+
         /** Client request to open connection. */
         m_c_ConnectionRequest,
         /** Server response refusing client connection. */
@@ -40,6 +42,10 @@ public:
         m_s_ConnectionAccept,
         /** Client indicating it has successfully connnected to server. */
         m_c_ConnectionComplete,
+
+        /** Client is moving their entity, */
+        m_c_PlayerMove,
+
         /** The number of message codes. */
         m_NUM_MESSAGES
     };

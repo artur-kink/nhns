@@ -10,6 +10,7 @@
 
 #include "GameResources.hpp"
 #include "Editor.hpp"
+#include "Entities/Entity.hpp"
 
 class Client:public EngineCore{
 private:
@@ -33,6 +34,7 @@ private:
     UIManager ui;
 
     Map* map;
+    Entity player;
 
     bool debug;
     Editor editor;

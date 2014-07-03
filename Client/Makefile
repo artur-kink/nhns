@@ -15,6 +15,7 @@ SOURCES= main.cpp \
 	GameResources.cpp \
 	Editor.cpp \
 	Client.cpp \
+	Entities/Entity.cpp \
 	$(ENGINE_SOURCES:%=../Engine/%)
 
 OBJECTS=$(SOURCES:.cpp=.o)
