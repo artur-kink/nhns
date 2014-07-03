@@ -98,7 +98,7 @@ uint16_t Message::bufferSize(unsigned short code){
             return 0;
         case m_s_ConnectionRefuse:
             return 0;
-        case m_s_ConnectionTerminate:
+        case m_b_ConnectionTerminate:
             return 0;
         case m_s_ConnectionAccept:
             return 0;
@@ -124,8 +124,8 @@ byte Message::messageGroup(unsigned short code){
             return Message::g_NewConnection;
         case m_s_ConnectionRefuse:
             return Message::g_NewConnection;
-        case m_s_ConnectionTerminate:
-            return Message::g_NewConnection;
+        case m_b_ConnectionTerminate:
+            return Message::g_Critical;
         case m_s_ConnectionAccept:
             return Message::g_NewConnection;
         case m_c_ConnectionComplete:

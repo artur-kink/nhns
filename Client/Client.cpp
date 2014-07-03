@@ -68,7 +68,7 @@ void Client::setServerTime(unsigned int time){
 
 void Client::connect(const char* addr, unsigned short port){
 
-    Log << LL_D << LC_N << "Connecting to " << addr << ":" << port;
+    Log << LL_I << LC_N << "Connecting to " << addr << ":" << port;
 
     network.bind(50012);
     network.setOutConnection(addr, port);
@@ -76,14 +76,14 @@ void Client::connect(const char* addr, unsigned short port){
     network.forceSendMessages();
     MessageQueue* response = network.getMessagesBlocking(1000);
     if(response == 0 ||  *response->getFirstMessage(Message::m_s_ConnectionAccept) == 0){
-        Log << LL_D << LC_N << "Connection request denied or timed out.";
+        Log << LL_I << LC_N << "Connection request denied or timed out.";
         return;
     }else{
-        Log << LL_D << LC_N << "Connection request accepted.";
+        Log << LL_I << LC_N << "Connection request accepted.";
     }
 
     //Sync client time with server.
-    Log << LL_D << LC_N << "Synchronizing clock with server.";
+    Log << LL_I << LC_N << "Synchronizing clock with server.";
     int syncCounter = 0;
     uint32_t previousOffset = 0;
     setServerTime(0);
@@ -91,13 +91,13 @@ void Client::connect(const char* addr, unsigned short port){
         //Send clock sync request.
 		network.addMessage(Message::m_c_ClockSyncReq, 0);
         uint32_t requestTime = getServerTime();
-        Log << LL_D << LC_N << "Request Time: " << requestTime;
+        Log << LL_I << LC_N << "Request Time: " << requestTime;
         network.forceSendMessages();
 
         //Get request response.
         response = network.getMessagesBlocking(1000);
         if(!response){
-            Log << LL_D << LC_N << "Clock sync timed out.";
+            Log << LL_I << LC_N << "Clock sync timed out.";
             return;
         }
 
@@ -107,7 +107,7 @@ void Client::connect(const char* addr, unsigned short port){
             uint32_t receivedServerTime = *(uint32_t*)(*message)->buffer;
             uint32_t responseTime = getServerTime();
             uint32_t offset = ((receivedServerTime - requestTime) + (receivedServerTime - responseTime))/2;
-            Log << LL_D << LC_N << "Server Time: " << receivedServerTime << ", Response Time: " << responseTime
+            Log << LL_I << LC_N << "Server Time: " << receivedServerTime << ", Response Time: " << responseTime
                 << ", Offset: " << offset;
 
             if(abs((long int)previousOffset) > abs((long int)offset) || syncCounter == 0){
@@ -136,7 +136,7 @@ void Client::update(unsigned int frameTime){
     if(connected){
         MessageQueue* messages = network.getMessages();
         if(messages){
-            Log << LL_D << LC_N << "Got network messages.";
+            Log << LL_D << LC_N << "Got " << messages->size << " network messages.";
 
             for(MessageIterator& message = messages->begin(); *message; ++message){
                 switch((*message)->code){
@@ -224,6 +224,12 @@ void Client::draw(unsigned int frameTime){
 
 Client::~Client(){
     Log << LC_E << LL_I << "Uninitializing Client";
+    if(connected){
+        Log << LC_N << LL_I << "Sending disconnect message";
+        network.addMessage(Message::m_b_ConnectionTerminate, 0);
+        network.forceSendMessages();
+        network.close();
+    }
     delete Resources;
     ui.clear();
     graphics.cleanup();

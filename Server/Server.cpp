@@ -116,9 +116,15 @@ void Server::handleMessages(MessageIterator& message){
 
     clients[sourceClient].timeoutTimer.reset(Time::getInstance()->getTimeMilliseconds());
     for(message; *message; ++message){
-        if((*message)->code == Message::m_b_Ping){
-            clients[sourceClient].network.addMessage(Message::m_b_Ping, 0);
-            clients[sourceClient].network.forceSendMessages();
+        switch((*message)->code){
+            case Message::m_b_Ping:
+                clients[sourceClient].network.addMessage(Message::m_b_Ping, 0);
+                clients[sourceClient].network.forceSendMessages();
+                break;
+            case Message::m_b_ConnectionTerminate:
+                Log << LL_I << LC_N << "Client terminated connection.";
+                clients[sourceClient].status = Client::cs_Disconnected;
+                break;
         }
     }
 
@@ -212,6 +218,8 @@ void Server::handleTimeouts(){
             //If client has timed out remove client from game.
             if(clients[i].timeoutTimer.hasElapsed(currentTime, timeout)){
                 Log << LL_D << LC_N << "Client timed out.";
+                clients[i].network.addMessage(Message::m_b_ConnectionTerminate, 0);
+                clients[i].network.forceSendMessages();
                 clients[i].status = Client::cs_Disconnected;
                 numClients--;
             }

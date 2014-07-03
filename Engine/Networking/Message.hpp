@@ -26,13 +26,21 @@ public:
     */
     enum MessageCode {
         m_b_Ping,
+        /** Client request to get server time. */
         m_c_ClockSyncReq,
+        /** Server response with server time. */
         m_s_ClockSyncResp,
+        /** Client request to open connection. */
         m_c_ConnectionRequest,
+        /** Server response refusing client connection. */
         m_s_ConnectionRefuse,
-        m_s_ConnectionTerminate,
+        /** Message stating the connection is being terminated. */
+        m_b_ConnectionTerminate,
+        /** Server response accepting client connection request. */
         m_s_ConnectionAccept,
+        /** Client indicating it has successfully connnected to server. */
         m_c_ConnectionComplete,
+        /** The number of message codes. */
         m_NUM_MESSAGES
     };
 
