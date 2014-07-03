@@ -32,6 +32,7 @@ public:
         m_s_ConnectionRefuse,
         m_s_ConnectionTerminate,
         m_s_ConnectionAccept,
+        m_c_ConnectionComplete,
         m_NUM_MESSAGES
     };
 

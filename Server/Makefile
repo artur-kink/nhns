@@ -12,6 +12,7 @@ LOCAL_LIBS= $(LIB_LIBS:%=-L%) -Wl,-rpath,. -L/lib/ -lrt -lpthread -L$(EXEC_PATH)
 LOCAL_FLAGS=$(CFLAGS) $(LOCAL_INCLUDE_DIRS:%=-I%) -MMD -MP -MF
 
 SOURCES= Server.cpp \
+    Client.cpp \
     main.cpp \
     $(ENGINE_SOURCES:%=../Engine/%)
 

@@ -27,6 +27,16 @@ void NetworkHandler::setOutConnection(const char* addr, unsigned short port){
     outPort = port;
 }
 
+const char* NetworkHandler::getOutAddress(){
+#ifdef _PC_
+    return address.toString().c_str();
+#endif
+}
+
+unsigned short NetworkHandler::getOutPort(){
+    return outPort;
+}
+
 /**
  * Add message to send.
  * @param code Message code.

@@ -34,6 +34,8 @@ Server::Server(){
 
     numClients = 0;
     maxClients = 10;
+    timeout = 1000;
+    clients = new Client[maxClients];
 }
 
 /**
@@ -56,21 +58,26 @@ void Server::start(){
         //Handle network messages.
         MessageQueue* messages = connectionListener.getMessages();
         if(messages){
-            Log << LL_D << LC_N << "Received " << messages->size << " messages.";
+            Log << LL_D << LC_N << "Received " << messages->size << " messages from "
+                << connectionListener.lastMessageAddress << ":" << connectionListener.lastMessagePort;
 
             MessageIterator message = messages->begin();
             switch((*message)->group){
                 case Message::g_Normal:
+                    handleMessages(message);
                     break;
                 case Message::g_Critical:
+                    handleMessages(message);
                     break;
                 case Message::g_NewConnection:
                     handleNewConnection(message);
                     break;
                 case Message::g_Loading:
+                    handleLoadingConnection(message);
                     break;
             }
         }
+        handleTimeouts();
 
         //Run server update in a semi fixed step format.
         while(updateTimer.hasElapsed(currentTime.getTimeMicroseconds())){
@@ -89,6 +96,33 @@ void Server::stop(){
 
 }
 
+void Server::handleMessages(MessageIterator& message){
+    //Find message client.
+    int sourceClient = -1;
+    for(int i = 0; i < maxClients; i++){
+        if(clients[i].status == Client::cs_Connected &&
+            strcmp(clients[i].network.getOutAddress(), connectionListener.lastMessageAddress) == 0 &&
+            clients[i].network.getOutPort() == connectionListener.lastMessagePort){
+            sourceClient = i;
+            break;
+        }
+    }
+
+    if(sourceClient == -1){
+        Log << LL_W << LC_N << "Invalid message source "
+            << connectionListener.lastMessageAddress << ":" << connectionListener.lastMessagePort;
+        return;
+    }
+
+    clients[sourceClient].timeoutTimer.reset(Time::getInstance()->getTimeMilliseconds());
+    for(message; *message; ++message){
+        if((*message)->code == Message::m_b_Ping){
+            clients[sourceClient].network.addMessage(Message::m_b_Ping, 0);
+            clients[sourceClient].network.forceSendMessages();
+        }
+    }
+
+}
 
 /**
 * Handles connections that have been accepted by the server but not yet added to the clients list.
@@ -96,72 +130,36 @@ void Server::stop(){
 */
 void Server::handleLoadingConnection(MessageIterator& message){
 
-    /*
-    LoadingClientCollection::LoadingClientNode* loadingClient = loadingClientsList.clientList;
-
-    //While loop to find the corresponding client
-    while(loadingClient != 0){
-        LoadingClientCollection::LoadingClientNode* nextClient = loadingClient->next;
-
-        if(loadingClient->address->toInteger() == address.toInteger()){
-
-            if((*iMessage)->code == Message::m_c_ClockSyncReq){
-				uint32_t time = MessageQueue::serverTime->getTime();
-				globalOutQueue.createMessage(Message::m_s_ClockSyncResp, &time);
-                loadingClient->timeout->restart();
-                globalOutQueue.forceSendQueue(socket, *loadingClient->address, loadingClient->port);
-                globalOutQueue.clearQueue();
-                cout << "Clock sync request" << endl;
-            }else if((*iMessage)->code == Message::m_c_LoadingComplete){
-                //Client connected add to game
-                Client* addClient = clientsList.addClient();
-				playerManager.createPlayer(&addClient->entity);
-				addClient->setup(loadingClient->address->toString(), *loadingClient->address, loadingClient->port);
-                addClient->entity.region = regionManager.createRegion("player");
-
-                loadingClientsList.removeClient(loadingClient);
-                sEngine.clientConnected(addClient);
-
-                //Send client add reply
-				globalOutQueue.createMessage(Message::m_s_ClientAdd, &addClient->index);
-
-                //Send client game state
-                Packet_GameState state;
-                state.maxClients = clientsList.MAX_CLIENTS;
-				globalOutQueue.createMessage(Message::m_s_GameState, &state);
-
-                //Send client all client states.
-                int clientCounter = 0;
-				for(int i = 0; i < clientsList.MAX_CLIENTS; i++){
-					if(clientsList[i]->active){
-						Packet_ClientState clientState = PacketHelper::ClientState(&clientsList[i]->entity, clientsList[i]->name.c_str());
-						globalOutQueue.createMessage(Message::m_s_NewClient, &clientState);
-
-                        if(clientCounter == addClient->index){
-                            networkHandler.sendAllMessageExcept(Message::m_s_NewClient, &clientState, addClient->index);
-                        }
-						clientCounter++;
-					}
-                }
-
-				//Send client all entity states
-				for(int i = 0; i < entityManager.size; i++){
-					if(entityManager.entities[i] != 0){
-						Packet_EntityState entityState = PacketHelper::EntityState(entityManager.entities[i]);
-						globalOutQueue.createMessage(Message::m_s_NewEntity, &entityState);
-					}
-				}
-
-                globalOutQueue.forceSendQueue(socket, addClient->address, addClient->port);
-                globalOutQueue.clearQueue();
-                addClient->lastMessage.restart();
-            }
-
-            return;
+    //Find client thats connecting.
+    int loadingClient = -1;
+    for(int i = 0; i < maxClients; i++){
+        if(clients[i].status == Client::cs_Connecting &&
+            strcmp(clients[i].network.getOutAddress(), connectionListener.lastMessageAddress) == 0 &&
+            clients[i].network.getOutPort() == connectionListener.lastMessagePort){
+            loadingClient = i;
+            break;
         }
-        loadingClient = nextClient;
     }
-    */
+
+    //Message did not come from a valid loading client.
+    if(loadingClient == -1){
+        Log << LL_W << LC_N << "Invalid loading message from "
+            << connectionListener.lastMessageAddress << ":" << connectionListener.lastMessagePort;
+        
+        return;
+    }
+
+    if((*message)->code == Message::m_c_ClockSyncReq){
+        uint32_t time = Time::getInstance()->getTimeMilliseconds();
+        clients[loadingClient].network.addMessage(Message::m_s_ClockSyncResp, &time);
+        clients[loadingClient].timeoutTimer.reset(Time::getInstance()->getTimeMilliseconds());
+        clients[loadingClient].network.forceSendMessages();
+        
+        Log << LL_D << LC_N << "Clock sync request";
+    }else if((*message)->code == Message::m_c_ConnectionComplete){
+        Log << LL_D << LC_N << "Client loading complete.";
+        clients[loadingClient].status = Client::cs_Connected;
+    }
 }
 
 /**
@@ -171,6 +169,7 @@ void Server::handleLoadingConnection(MessageIterator& message){
 */
 void Server::handleNewConnection(MessageIterator& message){
 
+    Log << LL_D << LC_N << "Connection request from " << connectionListener.lastMessageAddress << ":" << connectionListener.lastMessagePort;
     connectionListener.setOutConnection(connectionListener.lastMessageAddress, connectionListener.lastMessagePort);
     if((*message)->code == Message::m_c_ConnectionRequest && numClients < maxClients){
 
@@ -179,7 +178,18 @@ void Server::handleNewConnection(MessageIterator& message){
 
         //If accept message was successfully sent, add connection to loading client list.
         if(connectionListener.forceSendMessages()){
-            //Add loading client.
+            //Find available client to place connection into.
+            for(int i = 0; i < maxClients; i++){
+                if(clients[i].status == Client::cs_Disconnected){
+
+                    Log << LL_D << LC_N << "New client added.";
+                    clients[i].status = Client::cs_Connecting;
+                    clients[i].timeoutTimer.reset(Time::getInstance()->getTimeMilliseconds());
+                    clients[i].network.setOutConnection(connectionListener.lastMessageAddress, connectionListener.lastMessagePort);
+                    numClients++;
+                    break;
+                }
+            }
             return;
         }
     }
@@ -188,4 +198,23 @@ void Server::handleNewConnection(MessageIterator& message){
     //was rejected. Send reject message
 	connectionListener.addMessage(Message::m_s_ConnectionRefuse, 0);
     connectionListener.forceSendMessages();
+}
+
+/**
+ * Removes clients that have timed out.
+ */
+void Server::handleTimeouts(){
+
+    unsigned int currentTime = Time::getInstance()->getTimeMilliseconds();
+    for(int i = 0; i < maxClients; i++){
+        if(clients[i].status != Client::cs_Disconnected){
+            
+            //If client has timed out remove client from game.
+            if(clients[i].timeoutTimer.hasElapsed(currentTime, timeout)){
+                Log << LL_D << LC_N << "Client timed out.";
+                clients[i].status = Client::cs_Disconnected;
+                numClients--;
+            }
+        }
+    }
 }

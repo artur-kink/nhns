@@ -52,8 +52,18 @@ Client::Client(){
     editor.setMap(map);
 
     debug = false;
+    connected = false;
 
     Log << LC_E << LL_I << "Client initialized.";
+}
+
+unsigned int Client::getServerTime(){
+    return serverTime + serverTimer.getElapsedTime(Time::getInstance()->getTimeMilliseconds());
+}
+
+void Client::setServerTime(unsigned int time){
+    serverTime = time;
+    serverTimer.reset(Time::getInstance()->getTimeMilliseconds());
 }
 
 void Client::connect(const char* addr, unsigned short port){
@@ -64,7 +74,59 @@ void Client::connect(const char* addr, unsigned short port){
     network.setOutConnection(addr, port);
     network.addMessage(Message::m_c_ConnectionRequest, 0);
     network.forceSendMessages();
+    MessageQueue* response = network.getMessagesBlocking(1000);
+    if(response == 0 ||  *response->getFirstMessage(Message::m_s_ConnectionAccept) == 0){
+        Log << LL_D << LC_N << "Connection request denied or timed out.";
+        return;
+    }else{
+        Log << LL_D << LC_N << "Connection request accepted.";
+    }
+
+    //Sync client time with server.
+    Log << LL_D << LC_N << "Synchronizing clock with server.";
+    int syncCounter = 0;
+    uint32_t previousOffset = 0;
+    setServerTime(0);
+    while(true){
+        //Send clock sync request.
+		network.addMessage(Message::m_c_ClockSyncReq, 0);
+        uint32_t requestTime = getServerTime();
+        Log << LL_D << LC_N << "Request Time: " << requestTime;
+        network.forceSendMessages();
+
+        //Get request response.
+        response = network.getMessagesBlocking(1000);
+        if(!response){
+            Log << LL_D << LC_N << "Clock sync timed out.";
+            return;
+        }
+
+        MessageIterator message = response->getFirstMessage(Message::m_s_ClockSyncResp);
+        if((*message)){
+
+            uint32_t receivedServerTime = *(uint32_t*)(*message)->buffer;
+            uint32_t responseTime = getServerTime();
+            uint32_t offset = ((receivedServerTime - requestTime) + (receivedServerTime - responseTime))/2;
+            Log << LL_D << LC_N << "Server Time: " << receivedServerTime << ", Response Time: " << responseTime
+                << ", Offset: " << offset;
+
+            if(abs((long int)previousOffset) > abs((long int)offset) || syncCounter == 0){
+                previousOffset = offset;
+                serverTime = serverTime + offset;
+            }
+            if(offset == 0 || syncCounter >= 5)
+                break;
+            syncCounter++;
+        }
+    }
+
+    //Notify server that we are ready to join game.
+	network.addMessage(Message::m_c_ConnectionComplete, 0);
+    network.forceSendMessages();
+
     connected = true;
+    lastMessage.setInterval(500);
+    lastMessage.reset(Time::getInstance()->getTimeMilliseconds());
 }
 
 void Client::update(unsigned int frameTime){
@@ -75,7 +137,21 @@ void Client::update(unsigned int frameTime){
         MessageQueue* messages = network.getMessages();
         if(messages){
             Log << LL_D << LC_N << "Got network messages.";
+
+            for(MessageIterator& message = messages->begin(); *message; ++message){
+                switch((*message)->code){
+                    case Message::m_b_Ping:
+                        Log << LL_D << LC_N << "Ping " << pingTimer.getElapsedTime(frameTime) << "ms.";
+                        break;
+                }
+            }
         }
+
+        if(lastMessage.hasElapsed(frameTime)){
+            network.addMessage(Message::m_b_Ping, 0);
+            pingTimer.reset(frameTime);
+        }
+        network.sendMessages();
     }
     
     //Update sprites.

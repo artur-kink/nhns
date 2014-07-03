@@ -45,6 +45,8 @@ public:
 
     void bind(unsigned short port);
     void setOutConnection(const char* addr, unsigned short port);
+    const char* getOutAddress();
+    unsigned short getOutPort();
 
     MessageIterator& addMessage(unsigned short code, void* data);
     bool sendMessages();

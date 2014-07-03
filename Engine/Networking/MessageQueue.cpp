@@ -148,7 +148,7 @@ void MessageQueue::parsePacket(const sf::Packet& packet){
 
 		//Check for valid code
 		if(code >= Message::m_NUM_MESSAGES){
-			Log << "Invalid code, discarding message.";
+			Log << LL_W << LC_N << "Invalid code, discarding message.";
 			break;
 		}
 

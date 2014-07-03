@@ -14,8 +14,15 @@
 class Client:public EngineCore{
 private:
 
+    /** Game time on server. */
+    unsigned int serverTime;
+    Timer serverTimer;
+    
     NetworkHandler network;
     bool connected;
+
+    Timer pingTimer;
+    Timer lastMessage;
 
     /** Main camera. */
     Camera camera;
@@ -37,6 +44,9 @@ public:
 
     virtual void update(unsigned int frameTime);
     virtual void draw(unsigned int frameTime);
+
+    void setServerTime(unsigned int time);
+    unsigned int getServerTime();
 
     ~Client();
 };
