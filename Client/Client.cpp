@@ -51,6 +51,8 @@ Client::Client(){
     map = new Map("empty", 1280/8, 720/8);
     editor.setMap(map);
 
+    player = new Entity();
+    entities.add(player);
     debug = false;
     connected = false;
 
@@ -85,6 +87,9 @@ void Client::connect(const char* addr, unsigned short port){
     }else{
         Log << LL_I << LC_N << "Connection request accepted.";
     }
+    clientId = (*((byte*)(*(response->begin()))->buffer));
+    entities.entities[0] = 0;
+    entities.entities[clientId] = player;
 
     //Sync client time with server.
     Log << LL_I << LC_N << "Synchronizing clock with server.";
@@ -147,6 +152,23 @@ void Client::update(unsigned int frameTime){
                     case Message::m_b_Ping:
                         Log << LL_D << LC_N << "Ping " << pingTimer.getElapsedTime(frameTime) << "ms.";
                         break;
+                    case Message::m_s_EntityState:
+                        Log << LL_D << LC_N << "Entity State received.";
+                        Packet::ServerEntityLocation entity = *((Packet::ServerEntityLocation*)(*message)->buffer);
+                        if(entities.entities[entity.id] == 0){
+                            if(clientId != entity.id){
+                                entities.entities[entity.id] = new Entity();
+                            }
+                            ((Entity*)entities.entities[entity.id])->dir = entity.direction;
+                            ((Entity*)entities.entities[entity.id])->x = entity.x;
+                            ((Entity*)entities.entities[entity.id])->y = entity.y;
+                        }else{
+                            ((Entity*)entities.entities[entity.id])->dir = entity.direction;
+                            ((Entity*)entities.entities[entity.id])->x = entity.x;
+                            ((Entity*)entities.entities[entity.id])->y = entity.y;
+                        }
+                        
+                        break;
                 }
             }
         }
@@ -156,6 +178,8 @@ void Client::update(unsigned int frameTime){
             pingTimer.reset(frameTime);
         }
     }
+
+    entities.update(frameTime);
     
     //Update sprites.
     Resources->sprites.update(frameTime);
@@ -169,31 +193,31 @@ void Client::update(unsigned int frameTime){
     camera.update(frameTime);
 
 #ifdef _PC_
-    byte currentDir = player.dir;
+    byte currentDir = player->dir;
     if(input.isButtonDown(0, sf::Keyboard::W)){
-        player.dir = Entity::dir_Up;
+        player->dir = Entity::dir_Up;
     }else if(input.isButtonDown(0, sf::Keyboard::S)){
-        player.dir = Entity::dir_Down;
+        player->dir = Entity::dir_Down;
     }else{
-        player.dir = Entity::dir_None;
+        player->dir = Entity::dir_None;
     }
 
     
     if(input.isButtonDown(0, sf::Keyboard::A)){
-        player.dir |= Entity::dir_Right;
+        player->dir |= Entity::dir_Right;
     }else if(input.isButtonDown(0, sf::Keyboard::D)){
-        player.dir |= Entity::dir_Left;
+        player->dir |= Entity::dir_Left;
     }
 
-    if(connected && currentDir != player.dir){
-        network.addMessage(Message::m_c_PlayerMove, &player.dir);
+    if(connected && currentDir != player->dir){
+        network.addMessage(Message::m_c_PlayerMove, &player->dir);
     }
 
     if(input.isButtonPressed(0, sf::Keyboard::C)){
         connect("localhost", 50013);
     }
 
-    if(input.isButtonDown(0, sf::Keyboard::Escape)){
+    if(input.isButtonPressed(0, sf::Keyboard::Escape)){
         stop();
     }
 
@@ -208,8 +232,6 @@ void Client::update(unsigned int frameTime){
         editor.update(frameTime);
     }
 #endif
-
-    player.update(frameTime);
 
     if(connected){
         network.sendMessages();
@@ -239,8 +261,11 @@ void Client::draw(unsigned int frameTime){
         }
     }
 
-    player.draw(graphics, frameTime);
-    
+    for(int i = 0; i < entities.getSize(); i++){
+        if(entities.entities[i])
+            ((Entity*)entities.entities[i])->draw(graphics, frameTime);
+    }
+
     if(debug){
         editor.draw(graphics, frameTime);
     }

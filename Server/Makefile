@@ -14,6 +14,7 @@ LOCAL_FLAGS=$(CFLAGS) $(LOCAL_INCLUDE_DIRS:%=-I%) -MMD -MP -MF
 SOURCES= Server.cpp \
     Client.cpp \
     main.cpp \
+    Entities/Entity.cpp \
     $(ENGINE_SOURCES:%=../Engine/%)
 
 OBJECTS=$(SOURCES:.cpp=.o)

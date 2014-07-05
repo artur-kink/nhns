@@ -1,4 +1,7 @@
+#include <SFML/Window/Keyboard.hpp>
+
 #include "Editor.hpp"
+#include "Content/MapLoader.hpp"
 
 Editor::Editor(){
     input = InputHandler::I();
@@ -34,23 +37,31 @@ void Editor::update(unsigned int frameTime){
     
     if(input->isButtonDown(1, sf::Mouse::Left)){
         if(!showTileSelect){
-            //Add sprite to tile map.
-            for(int r = 0; r < brushSize; r++){
-                for(int c = 0; c < brushSize; c++){
-                    if(mouseTileX + c >=  0 && mouseTileX + c < map->width &&
-                        mouseTileY + r >= 0 && mouseTileY + r < map->height)
-                        map->getTile(mouseTileX + c, mouseTileY + r).layers[0] = drawSprite->index;
+            if(input->isButtonDown(0, sf::Keyboard::B)){
+                map->getTile(mouseTileX, mouseTileY).properties = 1;
+            }else{
+                //Add sprite to tile map.
+                for(int r = 0; r < brushSize; r++){
+                    for(int c = 0; c < brushSize; c++){
+                        if(mouseTileX + c >=  0 && mouseTileX + c < map->width &&
+                            mouseTileY + r >= 0 && mouseTileY + r < map->height)
+                            map->getTile(mouseTileX + c, mouseTileY + r).layers[0] = drawSprite->index;
+                    }
                 }
             }
         }
     }else if(input->isButtonDown(1, sf::Mouse::Right)){
         if(!showTileSelect){
-            //Clear tiles.
-            for(int r = 0; r < brushSize; r++){
-                for(int c = 0; c < brushSize; c++){
-                    if(mouseTileX + c >=  0 && mouseTileX + c < map->width &&
-                        mouseTileY + r >= 0 && mouseTileY + r < map->height)
-                        map->getTile(mouseTileX + c, mouseTileY + r).layers[0] = NO_SPRITE;
+            if(input->isButtonDown(0, sf::Keyboard::B)){
+                map->getTile(mouseTileX, mouseTileY).properties = 0;
+            }else{
+                //Clear tiles.
+                for(int r = 0; r < brushSize; r++){
+                    for(int c = 0; c < brushSize; c++){
+                        if(mouseTileX + c >=  0 && mouseTileX + c < map->width &&
+                            mouseTileY + r >= 0 && mouseTileY + r < map->height)
+                            map->getTile(mouseTileX + c, mouseTileY + r).layers[0] = NO_SPRITE;
+                    }
                 }
             }
         }
@@ -58,6 +69,10 @@ void Editor::update(unsigned int frameTime){
 
     if(input->isButtonPressed(0, sf::Keyboard::T)){
         showTileSelect = !showTileSelect;
+    }
+
+    if(input->isButtonPressed(0, sf::Keyboard::Return)){
+        MapLoader::saveRawMap(map, &Resources->sprites, new RegionManager());
     }
 
     if(input->isButtonPressed(0, sf::Keyboard::Add)){

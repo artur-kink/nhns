@@ -101,12 +101,15 @@ uint16_t Message::bufferSize(unsigned short code){
         case m_b_ConnectionTerminate:
             return 0;
         case m_s_ConnectionAccept:
-            return 0;
+            return sizeof(byte);
         case m_c_ConnectionComplete:
             return 0;
 
         case m_c_PlayerMove:
             return sizeof(byte);
+
+        case m_s_EntityState:
+            return sizeof(Packet::ServerEntityLocation);
 
         default:
             return 0xFFFF; //Hopefully cause overflow as this should never be reached.
@@ -136,6 +139,9 @@ byte Message::messageGroup(unsigned short code){
             return Message::g_Loading;
 
         case m_c_PlayerMove:
+            return Message::g_Critical;
+
+        case m_s_EntityState:
             return Message::g_Critical;
 
         default:

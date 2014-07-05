@@ -89,11 +89,19 @@ void Server::start(){
 }
 
 void Server::update(unsigned long frameTime){
-    
+    entities.update(frameTime);
 }
 
 void Server::stop(){
 
+}
+
+void Server::sendAllMessage(unsigned short code, void* data){
+    for(int i = 0; i < maxClients; i++){
+        if(clients[i].status == Client::cs_Connected){
+            clients[i].network.addMessage(code, data);
+        }
+    }
 }
 
 void Server::handleMessages(MessageIterator& message){
@@ -123,10 +131,20 @@ void Server::handleMessages(MessageIterator& message){
                 break;
             case Message::m_b_ConnectionTerminate:
                 Log << LL_I << LC_N << "Client terminated connection.";
-                clients[sourceClient].status = Client::cs_Disconnected;
+                disconnectClient(sourceClient);
                 break;
             case Message::m_c_PlayerMove:
                 Log << LL_I << LC_N << "Player move.";
+                if(clients[sourceClient].entity.dir != *((byte*)(*message)->buffer)){
+                    clients[sourceClient].entity.dir = *((byte*)((*message)->buffer));
+
+                    Packet::ServerEntityLocation entity;
+                    entity.id = sourceClient;
+                    entity.direction = clients[sourceClient].entity.dir;
+                    entity.x = clients[sourceClient].entity.x;
+                    entity.y = clients[sourceClient].entity.y;
+                    sendAllMessage(Message::m_s_EntityState, &entity);
+                }
                 break;
         }
     }
@@ -166,7 +184,31 @@ void Server::handleLoadingConnection(MessageIterator& message){
         
         Log << LL_D << LC_N << "Clock sync request";
     }else if((*message)->code == Message::m_c_ConnectionComplete){
-        Log << LL_D << LC_N << "Client loading complete.";
+        Log << LL_D << LC_N << "Client loading complete. Sending entity states.";
+        
+        //Add client entity to game.
+        entities.entities[loadingClient] = &clients[loadingClient].entity;
+
+        Packet::ServerEntityLocation newEntity;
+        newEntity.id = loadingClient;
+        newEntity.direction = clients[loadingClient].entity.dir;
+        newEntity.x = clients[loadingClient].entity.x;
+        newEntity.y = clients[loadingClient].entity.y;
+        sendAllMessage(Message::m_s_EntityState, &newEntity);
+        
+        //Send entity states to client.
+        for(int i = 0; i < entities.getSize(); i++){
+            if(entities.entities[i]){
+                Packet::ServerEntityLocation entityLocation;
+                entityLocation.id = i;
+                entityLocation.direction = ((Entity*)entities.entities[i])->dir;
+                entityLocation.x = ((Entity*)entities.entities[i])->x;
+                entityLocation.y = ((Entity*)entities.entities[i])->y;
+                clients[loadingClient].network.addMessage(Message::m_s_EntityState, &entityLocation);
+            }
+        }
+
+        
         clients[loadingClient].status = Client::cs_Connected;
     }
 }
@@ -182,23 +224,25 @@ void Server::handleNewConnection(MessageIterator& message){
     connectionListener.setOutConnection(connectionListener.lastMessageAddress, connectionListener.lastMessagePort);
     if((*message)->code == Message::m_c_ConnectionRequest && numClients < maxClients){
 
+        byte clientId = -1;
+        //Find available client to place connection into.
+        for(int i = 0; i < maxClients; i++){
+            if(clients[i].status == Client::cs_Disconnected){
+                clientId = i;
+                break;
+            }
+        }
+
         //Send accept information
-        connectionListener.addMessage(Message::m_s_ConnectionAccept, 0);
+        connectionListener.addMessage(Message::m_s_ConnectionAccept, &clientId);
 
         //If accept message was successfully sent, add connection to loading client list.
         if(connectionListener.forceSendMessages()){
-            //Find available client to place connection into.
-            for(int i = 0; i < maxClients; i++){
-                if(clients[i].status == Client::cs_Disconnected){
-
-                    Log << LL_D << LC_N << "New client added.";
-                    clients[i].status = Client::cs_Connecting;
-                    clients[i].timeoutTimer.reset(Time::getInstance()->getTimeMilliseconds());
-                    clients[i].network.setOutConnection(connectionListener.lastMessageAddress, connectionListener.lastMessagePort);
-                    numClients++;
-                    break;
-                }
-            }
+            Log << LL_D << LC_N << "New client added.";
+            clients[clientId].status = Client::cs_Connecting;
+            clients[clientId].timeoutTimer.reset(Time::getInstance()->getTimeMilliseconds());
+            clients[clientId].network.setOutConnection(connectionListener.lastMessageAddress, connectionListener.lastMessagePort);
+            numClients++;
             return;
         }
     }
@@ -221,11 +265,24 @@ void Server::handleTimeouts(){
             //If client has timed out remove client from game.
             if(clients[i].timeoutTimer.hasElapsed(currentTime, timeout)){
                 Log << LL_D << LC_N << "Client timed out.";
-                clients[i].network.addMessage(Message::m_b_ConnectionTerminate, 0);
-                clients[i].network.forceSendMessages();
-                clients[i].status = Client::cs_Disconnected;
-                numClients--;
+                disconnectClient(i);
             }
         }
     }
+}
+
+void Server::disconnectClient(int id){
+    Log << LL_D << LC_N << "Removing client.";
+    //Remove entity
+    entities.entities[id] = 0;
+    
+    //Send entity remove message.
+
+
+    //Send the client dc message.
+    clients[id].network.addMessage(Message::m_b_ConnectionTerminate, 0);
+    clients[id].network.forceSendMessages();
+    clients[id].status = Client::cs_Disconnected;
+
+    numClients--;
 }

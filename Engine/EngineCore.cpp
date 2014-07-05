@@ -40,7 +40,7 @@ void EngineCore::init(){
 
 #ifdef _PC_
     window.create(sf::VideoMode(1280, 720), "Title", sf::Style::Default);
-
+    hasFocus = true;
     graphics.window = &window;
     graphics.rootTarget = &window;
 
@@ -68,7 +68,8 @@ void EngineCore::run(){
         while(updateTimer.hasElapsed(currentTime.getTimeMicroseconds())){
             unsigned int frameTime = currentTime.getTimeMilliseconds();
             Log << LL_V << LC_E << "Running frame Update";
-            input.update(frameTime);
+            if(hasFocus)
+                input.update(frameTime);
             update(frameTime);
         }
 
@@ -85,17 +86,25 @@ void EngineCore::run(){
         sf::Event event;
         while(window.pollEvent(event)){
             // Close window : exit
-            if(event.type == sf::Event::Closed)
-                window.close();
-            else if(event.type == sf::Event::Resized){
-                resolutionChanged(window.getSize().x, window.getSize().y);
+            switch(event.type){
+                case sf::Event::Closed:
+                    window.close();
+                    engineRunning = false;
+                    break;
+                case sf::Event::Resized:
+                    resolutionChanged(window.getSize().x, window.getSize().y);
+                    break;
+                case sf::Event::LostFocus:
+                    hasFocus = false;
+                    break;
+                case sf::Event::GainedFocus:
+                    hasFocus = true;
+                    break;
+                default:
+                    break;
             }
-            
         }
         
-        if(!window.isOpen()){
-            engineRunning = false;
-        }
         sf::sleep(sf::milliseconds(1));
 #endif
     }

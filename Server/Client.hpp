@@ -4,6 +4,8 @@
 #include "Utilities/Timer.hpp"
 #include "Networking/Networking.hpp"
 
+#include "Entities/Entity.hpp"
+
 /**
  * Class storing the information of clients connected to server.
  */
@@ -24,6 +26,8 @@ public:
 
     /** Time of last received message. */
     Timer timeoutTimer;
+
+    Entity entity;
 
     Client();
 };

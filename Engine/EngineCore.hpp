@@ -42,6 +42,8 @@ protected:
 #ifdef _PC_
     /** SFML graphics window. */
     sf::RenderWindow window;
+
+    bool hasFocus;
 #endif
 
     EngineCore();

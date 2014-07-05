@@ -80,11 +80,11 @@ MessageIterator& MessageQueue::getFirstMessage(unsigned short code){
 #ifdef _PC_
 
 /** 
-* Sends the queue to the specified address.
-* @param socket Socket to send from.
-* @param address Address to send to.
-* @param port Port to send to.
-*/
+ * Sends the queue to the specified address.
+ * @param socket Socket to send from.
+ * @param address Address to send to.
+ * @param port Port to send to.
+ */
 sf::Socket::Status MessageQueue::forceSendQueue(sf::UdpSocket& socket, const sf::IpAddress& address, const unsigned short& port){
     if(size != 0){
         sf::Packet* sendPacket = getMessagePacket();
@@ -105,10 +105,10 @@ sf::Socket::Status MessageQueue::forceSendQueue(sf::UdpSocket& socket, const sf:
 }
 
 /** 
-* Sends the queue if cycle time has elapsed or queue is on forceSend
-* If the queue is not sent because its not ready, Done is returned, else the socket response is sent.
-* @return Socket's send return or Done if message not sent.
-*/
+ * Sends the queue if cycle time has elapsed or queue is on forceSend
+ * If the queue is not sent because its not ready, Done is returned, else the socket response is sent.
+ * @return Socket's send return or Done if message not sent.
+ */
 sf::Socket::Status MessageQueue::sendQueue(sf::UdpSocket& socket, const sf::IpAddress& address, const unsigned short& port){
     if(cycleTimer.getElapsedTime().asMilliseconds() >= MESSAGE_CYCLE_LENGTH || forceSend){
         return forceSendQueue(socket, address, port);
@@ -117,8 +117,8 @@ sf::Socket::Status MessageQueue::sendQueue(sf::UdpSocket& socket, const sf::IpAd
 }
 
 /** 
-* Parse a network packet into this queue.
-*/
+ * Parse a network packet into this queue.
+ */
 void MessageQueue::parsePacket(const sf::Packet& packet){
 	clearQueue();
     //There can be no valid packet of less than this size
@@ -129,6 +129,10 @@ void MessageQueue::parsePacket(const sf::Packet& packet){
     size_t byteCounter = 0;
     byte* data = (byte*) packet.getData();
     uint16_t messageCount = *(uint16_t*) data;
+
+    if(messageCount > 1){
+        int i = 0;
+    }
 
     data = data + sizeof(messageCount);
     byteCounter += sizeof(messageCount);
@@ -193,6 +197,7 @@ MessageIterator& MessageQueue::createMessage(unsigned short code, void* data){
 
 	//Allocate space in memory pool
 	uint16_t bufferSize = Message::bufferSize((byte)code);
+    uint16_t currentLocation = messagePool.getLength();
 	Message* message = (Message*)messagePool.allocate(sizeof(Message) + bufferSize);
 	if(message == 0){
 		messageIterator.clear();
@@ -216,7 +221,7 @@ MessageIterator& MessageQueue::createMessage(unsigned short code, void* data){
 		forceSend = true;
 
 	//Setup and return iterator.
-	messageIterator.setPosition(messagePool.getLength() - messagePool.getMemoryLeft());
+	messageIterator.setPosition(currentLocation);
 	size++;
 	return messageIterator;
 }

@@ -12,6 +12,8 @@
 
 #include "Networking/Networking.hpp"
 
+#include "Objects/EntityManager.hpp"
+
 #include "Client.hpp"
 
 class Server{
@@ -29,6 +31,9 @@ private:
 
     NetworkHandler connectionListener;
     Client* clients;
+
+    EntityManager entities;
+
 public:
     Server();
 
@@ -36,11 +41,15 @@ public:
     void update(unsigned long frameTime);
     void stop();
 
+    void sendAllMessage(unsigned short code, void* data);
+
     void handleMessages(MessageIterator& message);
     void handleNewConnection(MessageIterator& message);
     void handleLoadingConnection(MessageIterator& message);
     void handleTimeouts();
-    
+
+    void disconnectClient(int id);
+
 };
 
 #endif

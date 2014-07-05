@@ -7,6 +7,7 @@
 #include "Graphics/UI/UIManager.hpp"
 #include "Utilities/Utilities.hpp"
 #include "Networking/Networking.hpp"
+#include "Objects/EntityManager.hpp"
 
 #include "GameResources.hpp"
 #include "Editor.hpp"
@@ -34,7 +35,11 @@ private:
     UIManager ui;
 
     Map* map;
-    Entity player;
+
+    Entity* player;
+    EntityManager entities;
+
+    byte clientId;
 
     bool debug;
     Editor editor;

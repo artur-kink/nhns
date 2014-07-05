@@ -3,6 +3,8 @@
 
 #include "Utilities/InputHandler.hpp"
 #include "Content/Map.hpp"
+#include "Content/MapLoader.hpp"
+#include "Objects/RegionManager.hpp"
 #include "Graphics/Graphics.hpp"
 
 #include "GameResources.hpp"

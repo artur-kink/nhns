@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Types.hpp"
+#include "Packets.hpp"
 
 #pragma pack(push, 1)
 
@@ -45,6 +46,9 @@ public:
 
         /** Client is moving their entity, */
         m_c_PlayerMove,
+
+        /** Enitity State. */
+        m_s_EntityState,
 
         /** The number of message codes. */
         m_NUM_MESSAGES
