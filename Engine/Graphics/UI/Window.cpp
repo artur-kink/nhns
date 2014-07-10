@@ -4,21 +4,18 @@ Window::Window():InterfaceElement(0, 0, 100, 100){
 	isMoving = false;
 
     //Setup window background.
-	background.setFillColor(sf::Color::Black);
-	background.setSize(sf::Vector2f(100, 100));
+	background.color = Color::Red;
+	background.setSize(100, 100);
 	background.setPosition(0, 0);
 	
     //Setup window layouts
     contentPanel.setPosition(0, 20);
     contentPanel.setSize(100, 80);
     
-	title.setString(12, sf::Color::White, sf::Text::Bold, "Title");
+	title.setString(12, Color::White, "Title");
 	title.setPosition(2, 0);
 	topBar.setSize(100, 20);
 	topBar.add(&title);
-
-	closeButton.setSize(16, 16);
-	topBar.add(&closeButton);
     
     topBar.parent = this;
     contentPanel.parent = this;
@@ -46,8 +43,8 @@ InterfaceElement* Window::collisionCheck(int x, int y){
 	if(isMoving){
 		setPosition(x - moveOffsetX, y - moveOffsetY);
 	}else{
-		moveOffsetX = x - rect.left;
-		moveOffsetY = y - rect.top;
+		moveOffsetX = x - this->x;
+		moveOffsetY = y - this->y;
 	}
     
     //We don't check for this until now to make sure the window can be repositioned if necessary above.
@@ -55,12 +52,12 @@ InterfaceElement* Window::collisionCheck(int x, int y){
         return 0;
     
     //Check for top bar collision.
-    InterfaceElement * element = topBar.collisionCheck(x - rect.left, y - rect.top);
+    InterfaceElement * element = topBar.collisionCheck(x - this->x, y - this->y);
     if(element)
         return element;
     
     //Check for window content collision.
-    element = contentPanel.collisionCheck(x - rect.left, y - rect.top);
+    element = contentPanel.collisionCheck(x - this->y, y - this->x);
     if(element)
         return element;
     
@@ -72,9 +69,9 @@ InterfaceElement* Window::collisionCheck(int x, int y){
  */
 void Window::setSize(int width, int height){
     InterfaceElement::setSize(width, height);
-    background.setSize(sf::Vector2f(width, height));
+    background.setSize(width, height);
 	topBar.setSize(width, 20);
-    closeButton.setPosition(width - 16, 0);
+
     contentPanel.setSize(width, height - 20);
     contentPanel.onResize(width, height - 20);
 }
@@ -83,7 +80,7 @@ void Window::setSize(int width, int height){
 * Set window title.
 */
 void Window::setTitle(std::string t){
-	title.setString(t);
+	title.setString(t.c_str());
 }
 
 /** 
@@ -97,13 +94,13 @@ void Window::update(unsigned int time){
     contentPanel.update(time);
 }
 
-void Window::draw(sf::RenderTarget& target, sf::RenderStates states) const{
-	states.transform *= sf::Transform().translate((float)rect.left, (float)rect.top);
-    target.draw(background, states);
-	target.draw(topBar, states);
-	target.draw(contentPanel, states);
+void Window::draw(RenderTarget* target, RenderObject obj) const{
+    MatrixTransformation::translate(obj, x, y);
+    background.draw(target, obj);
+    topBar.draw(target, obj);
+    contentPanel.draw(target, obj);
 }
 
 Window::~Window(){
-    contentPanel.elements.clear();
+    contentPanel.clear();
 }

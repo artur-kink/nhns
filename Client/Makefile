@@ -13,7 +13,8 @@ LOCAL_FLAGS=$(CFLAGS) $(LOCAL_INCLUDE_DIRS:%=-I%) -MMD -MP -MF
 
 SOURCES= main.cpp \
 	GameResources.cpp \
-	Editor.cpp \
+	Editor/Editor.cpp \
+	Editor/SidePanel.cpp \
 	Client.cpp \
 	Entities/Entity.cpp \
 	$(ENGINE_SOURCES:%=../Engine/%)

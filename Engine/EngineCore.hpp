@@ -46,6 +46,10 @@ protected:
     bool hasFocus;
 #endif
 
+#ifdef _PC_
+    virtual void sfmlEvent(sf::Event event);
+#endif
+
     EngineCore();
 
     void run();

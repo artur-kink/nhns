@@ -68,6 +68,10 @@ void Panel::update(unsigned int time){
     }
 }
 
+void Panel::setFormat(byte type){
+    formatType = type;
+}
+
 void Panel::onResize(int w, int h){
     //Check if panel needs to resize.
     if(formatType & Panel::VerticalStretch)

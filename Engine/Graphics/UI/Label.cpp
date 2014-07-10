@@ -10,7 +10,7 @@ Label::Label():InterfaceElement(0, 0, 100, 12){
     setString(12, Color::White, "");
 }
 
-Label::Label(int x, int y, int fontSize, Color fontColor, std::string text)
+Label::Label(int x, int y, int fontSize, Color fontColor, const char* text)
    :InterfaceElement(x, y, 0, 0){
    Label();
    setString(fontSize, fontColor, text);
@@ -21,25 +21,26 @@ Label::Label(int x, int y, int fontSize, Color fontColor):InterfaceElement(x, y,
    setString(fontSize, fontColor, "");
 }
 
-Label::Label(int fontSize, Color fontColor, std::string text):InterfaceElement(0, 0, 0, 0){
+Label::Label(int fontSize, Color fontColor, const char* text):InterfaceElement(0, 0, 0, 0){
     Label();
     setString(fontSize, fontColor, text);
 }
 
-void Label::setString(std::string text){
+void Label::setString(const char* text){
     string = text;
 }
 
-void Label::setString(int fontSize, Color fontColor, std::string text){
-    
-    fontHandler.setFontSize(fontSize);
-    fontHandler.setFontColor(fontColor);
+void Label::setString(int fontSize, Color fontColor, const char* text){
+    size = fontSize;
+    color = fontColor;
     setString(text);
 }
 
 void Label::draw(RenderTarget* target, RenderObject obj) const{
-    target->setFont(&fontHandler);
     MatrixTransformation::translate(obj, x, y);
+    target->setFont(&fontHandler);
+    fontHandler.setFontSize(size);
+    fontHandler.setFontColor(color);
     target->drawString(string.c_str(), obj);
 }
 

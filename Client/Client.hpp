@@ -10,7 +10,7 @@
 #include "Objects/EntityManager.hpp"
 
 #include "GameResources.hpp"
-#include "Editor.hpp"
+#include "Editor/Editor.hpp"
 #include "Entities/Entity.hpp"
 
 class Client:public EngineCore{
@@ -43,6 +43,13 @@ private:
 
     bool debug;
     Editor editor;
+
+protected:
+
+#ifdef _PC_
+    virtual void sfmlEvent(sf::Event event);
+#endif
+
 public:
     
     Client();

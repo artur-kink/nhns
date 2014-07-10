@@ -35,6 +35,7 @@ void UIManager::raise(InterfaceEvent* event){
 void UIManager::addElement(InterfaceElement* element){
     element->parent = this;
     elements.push_back(element);
+    element->onResize(width, height);
 }
 
 /** 
@@ -110,9 +111,13 @@ void UIManager::takeKeyboard(){
 /** 
 * Updates UI and events.
 */
-bool UIManager::update(unsigned int time, int x, int y, bool leftDown, bool rightDown){
+bool UIManager::update(unsigned int time, InputHandler& input){
 
     bool returnVal = false;
+    bool rightDown = input.isButtonDown(1, 2);
+    bool leftDown = input.isButtonDown(1, 0);
+    int x = input.getPointer(InputHandler::i_Mouse, 0);
+    int y = input.getPointer(InputHandler::i_Mouse, 1);
 
     //Check if right button was pressed and released.
     if(rightDownElement != 0 && !rightDown){
@@ -179,10 +184,8 @@ bool UIManager::update(unsigned int time, int x, int y, bool leftDown, bool righ
                     }
                 }
 
-                if(!rightDown && !leftDown){
-                    hoverElement = collisionElement;
-                }
-
+                hoverElement = collisionElement;
+                
                 //We only allow one element to be interacted with.
                 returnVal = true;
                 collisionDone = true;

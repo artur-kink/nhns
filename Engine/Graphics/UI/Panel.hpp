@@ -25,7 +25,7 @@ public:
 
 protected:
     /** Format type of this Panel. */
-     int formatType;
+     byte formatType;
 
 public:
     /** List of interface elements within this Panel. */
@@ -34,6 +34,7 @@ public:
 	Panel();
     Panel(int x, int y, int w, int h, int format);
 
+    virtual void setFormat(byte type);
     virtual void onResize(int w, int h);
     virtual void add(InterfaceElement* element);
     virtual void remove(InterfaceElement* element);

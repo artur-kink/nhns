@@ -34,6 +34,7 @@ private:
 
     EntityManager entities;
 
+    Map* map;
 public:
     Server();
 

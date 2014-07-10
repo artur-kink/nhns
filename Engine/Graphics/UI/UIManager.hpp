@@ -6,6 +6,7 @@
 #include "KeyboardElement.hpp"
 #include "Panel.hpp"
 #include "Label.hpp"
+#include "Utilities/InputHandler.hpp"
 
 using namespace std;
 
@@ -95,7 +96,7 @@ public:
 
     void addElement(InterfaceElement* element);
     void removeElement(InterfaceElement* element);
-    bool update(unsigned int time, int x, int y, bool leftDown, bool rightDown);
+    bool update(unsigned int time, InputHandler& input);
 
     void keyEvent(sf::Uint32 key);
     void wheelEvent(int delta);

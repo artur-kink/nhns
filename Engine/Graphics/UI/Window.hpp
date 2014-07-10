@@ -2,9 +2,10 @@
 #define _WINDOW_
 
 #include "IconButton.hpp"
-#include "ScrollPanel.hpp"
 #include "InterfaceElement.hpp"
 #include "Label.hpp"
+#include "Panel.hpp"
+#include "Rectangle.hpp"
 
 /** 
 * A UI Window. Stores other UI elements.
@@ -15,18 +16,19 @@ protected:
     Panel contentPanel;
     Panel topBar;
     Label title;
-    IconButton closeButton;
+    
     bool isMoving;
     int moveOffsetX;
     int moveOffsetY;
 
-    sf::RectangleShape background;
+    Rectangle background;
+    
 public:
     Window();
 
     void setTitle(std::string t);
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    virtual void draw(RenderTarget* target, RenderObject obj) const;
     virtual bool trapped(InterfaceEvent* event);
     virtual InterfaceElement* collisionCheck(int x, int y);
     virtual void setSize(int width, int height);

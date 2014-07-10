@@ -1,6 +1,7 @@
 #include "Rectangle.hpp"
 
-Rectangle::Rectangle(){
+Rectangle::Rectangle():InterfaceElement(0,0,0,0){
+    focusable = false;
     color = Color::Transparent;
 }
 

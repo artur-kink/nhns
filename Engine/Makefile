@@ -12,7 +12,9 @@ UI_SOURCES = Graphics/UI/InterfaceElement.cpp \
     Graphics/UI/UIManager.cpp \
     Graphics/UI/Rectangle.cpp \
     Graphics/UI/Panel.cpp \
-    Graphics/UI/Label.cpp
+    Graphics/UI/Label.cpp \
+    Graphics/UI/TextBox.cpp \
+    Graphics/UI/Window.cpp
 
 #Graphics engine source files.
 GRAPHIC_SOURCES= Graphics/BaseSprite.cpp \

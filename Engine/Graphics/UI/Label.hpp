@@ -13,16 +13,19 @@ protected:
     static FontHandler fontHandler;
     static bool fontLoaded;
 
+    Color color;
+    byte size;
+
     std::string string;
 public:
 
     Label();
-    Label(int fontSize, Color color, std::string text);
+    Label(int fontSize, Color color, const char* text);
     Label(int x, int y, int fontSize, Color color);
-    Label(int x, int y, int fontSize, Color color, std::string text);
+    Label(int x, int y, int fontSize, Color color, const char* text);
     
-    virtual void setString(std::string text);
-    virtual void setString(int fontSize, Color fontColor, std::string text);
+    virtual void setString(const char* text);
+    virtual void setString(int fontSize, Color fontColor, const char* text);
     std::string getString();
 
     virtual void draw(RenderTarget* target, RenderObject obj) const;

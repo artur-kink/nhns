@@ -17,6 +17,8 @@ public:
     SpriteManager sprites;
     ShaderManager shaders;
 
+    SpriteManager editorSprites;
+
     GameResources();
     ~GameResources();
 

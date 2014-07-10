@@ -7,6 +7,15 @@
 #include "GameResources.hpp"
 
 class Entity:public BaseEntity{
+protected:
+
+
+    float velocityX;
+    float velocityY;
+
+    virtual void moveX();
+    virtual void moveY();
+
 public:
 
     /** Entity movement direction. */
@@ -18,10 +27,17 @@ public:
         dir_Down = 8
     };
 
+    Map* map;
+    
     byte dir;
 
     float x;
     float y;
+
+    int cWidth;
+    int cHeight;
+    int cxOffset;
+    int cyOffset;
 
     Entity();
 

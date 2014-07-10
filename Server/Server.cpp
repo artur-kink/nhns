@@ -36,6 +36,7 @@ Server::Server(){
     maxClients = 10;
     timeout = 1000;
     clients = new Client[maxClients];
+    map = new Map("empty", 1280/8, 720/8);
 }
 
 /**
@@ -188,7 +189,8 @@ void Server::handleLoadingConnection(MessageIterator& message){
         
         //Add client entity to game.
         entities.entities[loadingClient] = &clients[loadingClient].entity;
-
+        clients[loadingClient].entity.map = map;
+        
         Packet::ServerEntityLocation newEntity;
         newEntity.id = loadingClient;
         newEntity.direction = clients[loadingClient].entity.dir;

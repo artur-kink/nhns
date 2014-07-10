@@ -85,7 +85,6 @@ void EngineCore::run(){
         //Check if engine should continue running
         sf::Event event;
         while(window.pollEvent(event)){
-            // Close window : exit
             switch(event.type){
                 case sf::Event::Closed:
                     window.close();
@@ -101,6 +100,7 @@ void EngineCore::run(){
                     hasFocus = true;
                     break;
                 default:
+                    sfmlEvent(event);
                     break;
             }
         }
@@ -111,6 +111,12 @@ void EngineCore::run(){
 
     Log << LL_D << LC_E << "Shutting down";
 }
+
+#ifdef _PC_
+void EngineCore::sfmlEvent(sf::Event event){
+    
+}
+#endif
 
 void EngineCore::resolutionChanged(int width, int height){
 }

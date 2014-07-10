@@ -21,20 +21,25 @@ class InterfaceElement:public InterfaceEventHandler{
 public:
     
     /** 
-    * Parent that contains this element.
-    */
+     * Parent that contains this element.
+     */
     InterfaceElement* parent;
 
     /** 
-    * Is this element visible.
-    */
+     * Is this element visible.
+     */
     bool visible;
     
     /** 
-    * Is this a keyboard element.
-    */
+     * Is this a keyboard element.
+     */
     bool keyboard;
  
+    /**
+     * Is this element focusable. True by default.
+     */
+    bool focusable;
+
     /**
      * Position of element.
      */
@@ -54,8 +59,8 @@ public:
     virtual void raise(const InterfaceEvent::EventType& event, void* args);
     
     /** 
-    * Update this element.
-    */
+     * Update this element.
+     */
     virtual void update(unsigned int time){};
     
     virtual void draw(RenderTarget* target, RenderObject obj) const = 0;
@@ -65,8 +70,8 @@ public:
     virtual void setSize(int w, int h);
 
     /** 
-    * Method called when an interface event's parent has been resized.
-    */
+     * Method called when an interface event's parent has been resized.
+     */
     virtual void onResize(int width, int height){};
     
     virtual ~InterfaceElement();

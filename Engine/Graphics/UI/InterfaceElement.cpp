@@ -6,6 +6,7 @@ InterfaceElement::InterfaceElement(int x, int y, int width, int height){
     keyboard = false;
     parent = 0;
     trapMask = 0;
+    focusable = true;
 }
 
 /** 
@@ -16,6 +17,7 @@ InterfaceElement::InterfaceElement(){
     keyboard = false;
     visible = true;
     trapMask = 0;
+    focusable = true;
 }
 
 /** 
@@ -51,13 +53,13 @@ void InterfaceElement::setSize(int w, int h){
 }
 
 /** 
-* Check if given x,y coordinates are within the rectangular area of this element.
-* @param x X Location to check against.
-* @param y Y Location to check against.
-* @return Pointer to the element where the collision occurred or 0 if none occurred.
-*/
+ * Check if given x,y coordinates are within the rectangular area of this element.
+ * @param x X Location to check against.
+ * @param y Y Location to check against.
+ * @return Pointer to the element where the collision occurred or 0 if none occurred.
+ */
 InterfaceElement* InterfaceElement::collisionCheck(int x, int y){
-    if(!visible)
+    if(!focusable || !visible)
         return 0;
     
     if(x < this->x + width && x > this->x &&

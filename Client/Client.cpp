@@ -1,3 +1,5 @@
+#include <SFML/Window/Keyboard.hpp>
+
 #include "Client.hpp"
 
 Client::Client(){
@@ -27,7 +29,8 @@ Client::Client(){
 
     Log << LC_E << LL_I << "Initializing client.";
     Resources->sprites.load("sprites.dat");
-
+    Resources->editorSprites.load("editorsprites.dat");
+    
     camera.setSize(1280, 720);
     camera.setScreenSize(1280, 720);
     camera.setPosition(0, 0);
@@ -44,20 +47,29 @@ Client::Client(){
     fpsLabel.setPosition(0, 0);
 
     //Initialize UI.
-    ui.setSize(1280, 720);
-
     ui.addElement(&fpsLabel);
 
     map = new Map("empty", 1280/8, 720/8);
     editor.setMap(map);
+    editor.ui = &ui;
+    ui.setSize(1280, 720);
 
     player = new Entity();
+    player->map = map;
     entities.add(player);
     debug = false;
     connected = false;
 
     Log << LC_E << LL_I << "Client initialized.";
 }
+
+#ifdef _PC_
+void Client::sfmlEvent(sf::Event event){
+    if(event.type == sf::Event::TextEntered){
+        ui.keyEvent(event.key.code);
+    }
+}
+#endif
 
 unsigned int Client::getServerTime(){
     return serverTime + serverTimer.getElapsedTime(Time::getInstance()->getTimeMilliseconds());
@@ -158,6 +170,7 @@ void Client::update(unsigned int frameTime){
                         if(entities.entities[entity.id] == 0){
                             if(clientId != entity.id){
                                 entities.entities[entity.id] = new Entity();
+                                ((Entity*)entities.entities[entity.id])->map = map;
                             }
                             ((Entity*)entities.entities[entity.id])->dir = entity.direction;
                             ((Entity*)entities.entities[entity.id])->x = entity.x;
@@ -185,7 +198,7 @@ void Client::update(unsigned int frameTime){
     Resources->sprites.update(frameTime);
 
     //Update UI.
-    ui.update(frameTime, 0, 0, false, false);
+    ui.update(frameTime, input);
 
     //Update camera state.
     //Since drawing occurs more often
@@ -194,6 +207,7 @@ void Client::update(unsigned int frameTime){
 
 #ifdef _PC_
     byte currentDir = player->dir;
+    
     if(input.isButtonDown(0, sf::Keyboard::W)){
         player->dir = Entity::dir_Up;
     }else if(input.isButtonDown(0, sf::Keyboard::S)){
@@ -225,6 +239,8 @@ void Client::update(unsigned int frameTime){
         debug = !debug;
         if(debug){
             editor.onEnable();
+        }else{
+            editor.onDisable();
         }
     }
 
@@ -256,6 +272,13 @@ void Client::draw(unsigned int frameTime){
                 }
                 if(map->getTile(col, r).layers[l] != NO_SPRITE){
                     graphics.draw(Resources->sprites.getSprite(map->getTile(col, r).layers[l]), colPos, r*TILESIZE);
+                }
+                if(debug && l == 4 && map->getTile(col, r).properties != 0){
+                    RenderObject obj;
+                    MatrixTransformation::translate(obj, colPos, r*TILESIZE);
+                    Color col = Color::Red;
+                    col.a = 0.5f;
+                    graphics.drawRect(obj, 8, 8, col);
                 }
             }
         }
