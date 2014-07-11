@@ -4,7 +4,7 @@
 #include "Objects/BaseEntity.hpp"
 #include "Graphics/RenderTarget.hpp"
 
-#include "GameResources.hpp"
+#include "../GameResources.hpp"
 
 class Entity:public BaseEntity{
 protected:

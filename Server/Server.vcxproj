@@ -129,10 +129,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Client.hpp" />
+    <ClInclude Include="Entities\Entity.hpp" />
     <ClInclude Include="Server.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -72,11 +72,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Editor\Editor.cpp" />
+    <ClCompile Include="Editor\OpenMapWindow.cpp" />
+    <ClCompile Include="Editor\SidePanel.cpp" />
+    <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="GameResources.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.hpp" />
+    <ClInclude Include="Editor\Editor.hpp" />
+    <ClInclude Include="Editor\OpenMapWindow.hpp" />
+    <ClInclude Include="Editor\SidePanel.hpp" />
+    <ClInclude Include="Entities\Entity.hpp" />
     <ClInclude Include="GameResources.hpp" />
   </ItemGroup>
   <ItemGroup>

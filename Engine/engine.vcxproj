@@ -144,7 +144,9 @@
     <ClCompile Include="Graphics\UI\Label.cpp" />
     <ClCompile Include="Graphics\UI\Panel.cpp" />
     <ClCompile Include="Graphics\UI\Rectangle.cpp" />
+    <ClCompile Include="Graphics\UI\TextBox.cpp" />
     <ClCompile Include="Graphics\UI\UIManager.cpp" />
+    <ClCompile Include="Graphics\UI\Window.cpp" />
     <ClCompile Include="Networking\Message.cpp" />
     <ClCompile Include="Networking\MessageIterator.cpp" />
     <ClCompile Include="Networking\MessageQueue.cpp" />
@@ -205,12 +207,15 @@
     <ClInclude Include="Graphics\UI\Label.hpp" />
     <ClInclude Include="Graphics\UI\Panel.hpp" />
     <ClInclude Include="Graphics\UI\Rectangle.hpp" />
+    <ClInclude Include="Graphics\UI\TextBox.hpp" />
     <ClInclude Include="Graphics\UI\UIManager.hpp" />
+    <ClInclude Include="Graphics\UI\Window.hpp" />
     <ClInclude Include="Networking\Message.hpp" />
     <ClInclude Include="Networking\MessageIterator.hpp" />
     <ClInclude Include="Networking\MessageQueue.hpp" />
     <ClInclude Include="Networking\NetworkHandler.hpp" />
     <ClInclude Include="Networking\Networking.hpp" />
+    <ClInclude Include="Networking\Packets.hpp" />
     <ClInclude Include="Objects\BaseEntity.hpp" />
     <ClInclude Include="Objects\BaseObject.hpp" />
     <ClInclude Include="Objects\EntityManager.hpp" />
