@@ -1,22 +1,13 @@
 #Project Makefile
 
-all: client server
+all: engine
 
-client:
-	@echo ""
-	@echo "Compiling client"
-	make -C Client/
-
-server:
-	@echo ""
-	@echo "Compiling server"
-	make -C Server/
+engine:
+	make -C Engine/
 
 clean:
 	@echo ""
 	@echo "Compiling client"
-	make -C Client/ clean
-	make -C Server/ clean
 
 tools: spriteparser shaderparser audioparser mapcompiler
 

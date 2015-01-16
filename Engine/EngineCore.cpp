@@ -68,8 +68,8 @@ void EngineCore::run(){
         while(updateTimer.hasElapsed(currentTime.getTimeMicroseconds())){
             unsigned int frameTime = currentTime.getTimeMilliseconds();
             Log << LL_V << LC_E << "Running frame Update";
-            if(hasFocus)
-                input.update(frameTime);
+            //if(hasFocus)
+            //    input.update(frameTime);
             update(frameTime);
         }
 

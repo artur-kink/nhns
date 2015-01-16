@@ -25,18 +25,18 @@ CFLAGS=-c -g -Wall $(LIB_FLAGS)
 LFLAGS=-Wall -g $(LIB_FLAGS)
 
 #Root folder of project
-PROJECT_PATH= /home/malo/nhns
+PROJECT_PATH= /home/malo/game/nhns
 
 #Path of executable and lib outputs
 EXEC_PATH= $(PROJECT_PATH)/Debug
 
 #Path to SFML Files
-SFML_INCLUDES=$(PROJECT_PATH)/SFML/include
-SFML_LIBS=$(PROJECT_PATH)/SFML/lib
+#SFML_INCLUDES=$(PROJECT_PATH)/SFML/include
+#SFML_LIBS=$(PROJECT_PATH)/SFML/lib
 
 #Path to pugixml Files
-PUGI_INCLUDES=$(PROJECT_PATH)/pugixml/src
-PUGI_LIBS=$(PROJECT_PATH)/pugixml/
+#PUGI_INCLUDES=$(PROJECT_PATH)/pugixml/src
+#PUGI_LIBS=$(PROJECT_PATH)/pugixml/
 
 #Path to all library files
 LIB_INCLUDES= $(SFML_INCLUDES) $(PUGI_INCLUDES)
