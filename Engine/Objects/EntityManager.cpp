@@ -12,7 +12,7 @@ EntityManager::EntityManager(){
  * Update states of entities in entity manager.
  * @param frameTime Time of update.
  */
-void EntityManager::update(unsigned int frameTime){
+void EntityManager::update(){
     for(int i = 0; i < size; i++){
         if(entities[i]){
             if(entities[i]->destroyState & BaseObject::d_Delete){
@@ -25,7 +25,7 @@ void EntityManager::update(unsigned int frameTime){
                 entities[i]->destroyState = BaseObject::d_Delete;
                 continue;
             }else{
-                entities[i]->update(frameTime);
+                entities[i]->update();
             }
         }
     }

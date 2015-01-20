@@ -11,7 +11,7 @@ public:
 
     EntityManager();
 
-    virtual void update(unsigned int frameTime);
+    virtual void update();
     virtual bool add(BaseObject* entity);
     virtual bool remove(BaseObject* entity);
 };
