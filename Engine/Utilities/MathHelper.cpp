@@ -1,3 +1,5 @@
+#include <iterator>
+
 #include "MathHelper.hpp"
 
 /**
@@ -38,7 +40,7 @@ unsigned int MathHelper::rand(){
  * @param max Maximum value of random integer.
  */
 unsigned int MathHelper::rand(unsigned int max){
-    return rand(0, max);
+    return std::rand() % max;
 }
 
 /**
@@ -48,10 +50,7 @@ unsigned int MathHelper::rand(unsigned int max){
  * @param max Maximum value of random integer, exclusive.
  */
 unsigned int MathHelper::rand(int min, int max){
-    unsigned int rand = std::rand() % (max + min);
-    if(rand > max)
-        return rand - min;
-    return  rand;
+    return min + rand(max - min);
 }
 
 /**
@@ -83,4 +82,22 @@ float MathHelper::randFloat(float max){
  */
 float MathHelper::randFloat(float min, float max){
     return min + randFloat(max - min);
+}
+
+/**
+ * Get Largest value.
+ */
+int MathHelper::max(int a, int b){
+    if(a > b)
+        return a;
+    return b;
+}
+
+/**
+ * Get smallest value.
+ */
+int MathHelper::min(int a, int b){
+    if(a > b)
+        return b;
+    return a;
 }

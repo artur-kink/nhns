@@ -29,6 +29,9 @@ public:
     static float randFloat();
     static float randFloat(float max);
     static float randFloat(float min, float max);
+    
+    static int max(int a, int b);
+    static int min(int a, int b);
 };
 
 #endif

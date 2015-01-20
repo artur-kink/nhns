@@ -25,6 +25,22 @@ Time* Time::getInstance(){
 }
 
 /**
+ * Update frame time to current time.
+ * Should be used by engine only.
+ */
+void Time::updateFrameTime(){
+    frameTime = getTimeMilliseconds();
+}
+
+/**
+ * Get the time of current frame in milliseconds.
+ * @return Time at start of this update frame.
+ */
+unsigned int Time::getFrameTime(){
+    return frameTime;
+}
+
+/**
  * Get time since Time has been initialized in milliseconds.
  * This method makes system calls.
  * @return Time in milliseconds.

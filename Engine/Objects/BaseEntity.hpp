@@ -12,9 +12,9 @@
 class BaseEntity:public BaseObject{
 public:
 
-	BaseEntity();
+    BaseEntity();
 
-    virtual void update(unsigned int frameTime) = 0;
+    virtual void update() = 0;
 };
 
 #endif

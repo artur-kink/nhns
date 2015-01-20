@@ -66,17 +66,17 @@ void EngineCore::run(){
         
         //Run engine update in a semi fixed step format.
         while(updateTimer.hasElapsed(currentTime.getTimeMicroseconds())){
-            unsigned int frameTime = currentTime.getTimeMilliseconds();
+            currentTime.updateFrameTime();
             Log << LL_V << LC_E << "Running frame Update";
-            //if(hasFocus)
-            //    input.update(frameTime);
-            update(frameTime);
+            if(hasFocus)
+                input.update(currentTime.getFrameTime());
+            update();
         }
 
         unsigned int frameTime = currentTime.getTimeMilliseconds();
         Log << LL_V << LC_G << "Beginning draw";
         graphics.begin();
-        draw(frameTime);
+        draw();
         graphics.end();
         Log << LL_V << LC_G << "Finished draw";
 

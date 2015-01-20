@@ -9,7 +9,7 @@
 /**
  * Real time tracking class.
  * Used to get system time since the initialization of class.
- * This class is not used to get time such as Date/
+ * This class is not used to get time such as Date.
  */
 class Time{
 private:
@@ -24,6 +24,8 @@ private:
     unsigned long startTimeMicro;
     unsigned int startTimeMillis;
 
+    unsigned int frameTime;
+    
     unsigned int getSystemTimeMilliseconds();
     unsigned int getSystemTimeMicroseconds();
 public:
@@ -31,6 +33,9 @@ public:
 
     static Time* getInstance();
 
+    unsigned int getFrameTime();
+    void updateFrameTime();
+    
     unsigned int getTimeMilliseconds();
     unsigned int getTimeMicroseconds();
 };

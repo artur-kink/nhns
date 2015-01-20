@@ -57,17 +57,16 @@ public:
 
     /** Initialize engine and all subsystems. */
     virtual void init();
+    
     /**
     * Update engine state.
-    * @param frameTime Time of update.
     */
-    virtual void update(unsigned int frameTime) = 0;
+    virtual void update() = 0;
     
     /**
      * Base draw call.
-     * @param frameTime Time of draw.
      */
-    virtual void draw(unsigned int frameTime) = 0;
+    virtual void draw() = 0;
 
     virtual void start();
     virtual void stop();
