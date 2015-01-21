@@ -10,9 +10,9 @@
 */
 class Label:public InterfaceElement{
 protected:
-    static FontHandler fontHandler;
-    static bool fontLoaded;
 
+    FontHandler* font;
+    
     Color color;
     byte size;
 
@@ -28,6 +28,8 @@ public:
     virtual void setString(int fontSize, Color fontColor, const char* text);
     std::string getString();
 
+    void setFont(FontHandler* fontHandler);
+    
     virtual void draw(RenderTarget* target, RenderObject obj) const;
 };
 

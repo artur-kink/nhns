@@ -1,4 +1,5 @@
 #include "IntervalCounter.hpp"
+#include "Time.hpp"
 
 IntervalCounter::IntervalCounter(){
     setInterval(0);
@@ -29,8 +30,16 @@ void IntervalCounter::setInterval(unsigned int length){
     interval = length;
 }
 
+/**
+ * Increment counter. Uses Time::getFrameTime as current time.
+ */
+void IntervalCounter::increment(){
+    increment(Time::getInstance()->getFrameTime());
+}
+
 /** 
  * Increment counter.
+ * @param time Current time.
  */
 void IntervalCounter::increment(unsigned long time){
     currentCount++;
@@ -44,8 +53,19 @@ void IntervalCounter::increment(unsigned long time){
     }
 }
 
+/**
+ * Increases the counter by specified amount.
+ * Uses Time::getFrameTime as current time.
+ * @param count Amount to increase counter by.
+ */
+void IntervalCounter::increase(unsigned int count){
+    increase(Time::getInstance()->getFrameTime(), count);
+}
+
 /** 
  * Increases the counter by specified amount.
+ * @param time Current time.
+ * @param count Amount to increase counter by.
  */
 void IntervalCounter::increase(unsigned long time, unsigned int count){
 	currentCount += count;

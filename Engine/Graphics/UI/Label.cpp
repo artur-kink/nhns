@@ -1,12 +1,6 @@
 #include "Label.hpp"
 
-FontHandler Label::fontHandler;
-bool Label::fontLoaded = false;
-
 Label::Label():InterfaceElement(0, 0, 100, 12){
-    if(!fontLoaded){
-        fontLoaded = fontHandler.loadFont("arial.ttf");
-    }
     setString(12, Color::White, "");
 }
 
@@ -36,11 +30,18 @@ void Label::setString(int fontSize, Color fontColor, const char* text){
     setString(text);
 }
 
+/**
+ * Set font of this label.
+ */
+void Label::setFont(FontHandler* fontHandler){
+    font = fontHandler;
+}
+
 void Label::draw(RenderTarget* target, RenderObject obj) const{
     MatrixTransformation::translate(obj, x, y);
-    target->setFont(&fontHandler);
-    fontHandler.setFontSize(size);
-    fontHandler.setFontColor(color);
+    target->setFont(font);
+    font->setFontSize(size);
+    font->setFontColor(color);
     target->drawString(string.c_str(), obj);
 }
 

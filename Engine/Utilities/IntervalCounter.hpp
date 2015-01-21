@@ -30,8 +30,13 @@ public:
     IntervalCounter(unsigned int length);
     
     void setInterval(unsigned int length);
+    
+    void increment();
     void increment(unsigned long time);
-	void increase(unsigned long time, unsigned int count);
+    
+    void increase(unsigned int count);
+    void increase(unsigned long time, unsigned int count);
+    
     unsigned int getAverage();
     unsigned int getCounter();
 };

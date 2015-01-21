@@ -39,7 +39,7 @@ public:
 #endif
     FontHandler();
 
-    bool loadFont(char* name);
+    bool loadFont(const char* name);
 
     unsigned short getStringWidth(const char* str);
     void setFontSize(byte size);

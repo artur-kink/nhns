@@ -11,11 +11,11 @@ FontHandler::FontHandler(){
 
 /**
  * Load font with given name. 
- * All fonts are expected to be .ttf format and located in the content directory.
- * @param name Name of font that matches file name without path or extension.
+ * All fonts are expected to be .ttf format.
+ * @param name Name of font that matches file name, including extension.
  * @return true if font was loaded, false otherwise.
  */
-bool FontHandler::loadFont(char* name){
+bool FontHandler::loadFont(const char* name){
     initialized = false;
     
 #ifdef _PC_
