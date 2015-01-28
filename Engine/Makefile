@@ -64,9 +64,8 @@ CONTENT_SOURCES= Content/Tile.cpp \
     Content/MapLoader.cpp
 
 OBJECT_SOURCES= Objects/BaseObject.cpp \
-    Objects/BaseEntity.cpp \
-    Objects/EntityManager.cpp \
-    Objects/Region.cpp \
+    Objects/ObjectManager.cpp \
+	Objects/Region.cpp \
     Objects/RegionManager.cpp
 
 ENGINE_SOURCES= $(CORE_SOURCES) $(UTILITY_SOURCES) $(AUDIO_SOURCES) $(GRAPHIC_SOURCES) $(NETWORKING_SOURCES) $(CONTENT_SOURCES) $(OBJECT_SOURCES)

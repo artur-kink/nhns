@@ -4,7 +4,7 @@
 #include "BaseObject.hpp"
 
 /**
- * Abstract base class for classes that manage
+ * Base class for classes that manage
  * lists of objects.
  */
 class ObjectManager{
@@ -37,7 +37,7 @@ public:
     /**
      * Update state of all objects in manager.
      */
-    virtual void update(unsigned int frameTime) = 0;
+    virtual void update() = 0;
 };
 
 #endif

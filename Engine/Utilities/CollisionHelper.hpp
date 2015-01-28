@@ -1,7 +1,6 @@
 #ifndef _COLLISIONHELPER_
 #define	_COLLISIONHELPER_
 
-#include "Objects/BaseEntity.hpp"
 #include "Objects/Region.hpp"
 
 /**
